@@ -1,7 +1,7 @@
 # uprising
 Interaktywny informator o powstaniu wielkopolskim.
 
-Konfiguracja Windows
+Konfiguracja pod Windows
 
 1.	Instalacja xampp
 
