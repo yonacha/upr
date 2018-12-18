@@ -2,10 +2,13 @@
 Interaktywny informator o powstaniu wielkopolskim.
 
 1.	Instalacja xampp
+
 https://www.apachefriends.org/pl/index.html
 2.	Instalacja composer
+
 https://getcomposer.org/download/
 Przy instalacji wskazać lokalizację PHP w folderze xampp np: C:\Dev\xampp\php\php.exe
+
 3.	Instalacja gita 
 https://git-scm.com/download/win
 4.	Do C:\Dev\xampp\htdocs klonujemy projekt z repozytorium
