@@ -1,6 +1,8 @@
 # uprising
 Interaktywny informator o powstaniu wielkopolskim.
 
+Konfiguracja Windows
+
 1.	Instalacja xampp
 
 https://www.apachefriends.org/pl/index.html
