@@ -53,13 +53,13 @@
                     <a class="nav-link js-scroll-trigger" href="#services">O stronie</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" href="#portfolio">Wiadomości o powstaniu</a>
+                    <a class="nav-link js-scroll-trigger" href="{{ path('newslist') }}">Wiadomości o powstaniu</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" href="#about">Mapa interaktywna</a>
+                    <a class="nav-link js-scroll-trigger" href="{{ path('interactivemapshow') }}">Mapa interaktywna</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" href="#team">Gra miejska</a>
+                    <a class="nav-link js-scroll-trigger" href="{{ path('citygameshow') }}">Gra miejska</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link js-scroll-trigger" href="#contact">Login</a>
@@ -69,6 +69,7 @@
     </div>
 </nav>
 
+{% block body %}
 <!-- Header -->
 <header class="masthead">
     <div class="container">
@@ -84,12 +85,13 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2 class="section-heading text-uppercase">Test content</h2>
+                <h2 class="section-heading text-uppercase">Home page</h2>
                 <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
             </div>
         </div>
     </div>
 </section>
+{% endblock %}
 
 <!-- Footer -->
 <footer>
