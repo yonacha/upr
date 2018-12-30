@@ -1,6 +1,13 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <style>
+        #map {
+            height: 400px;  /* The height is 400 pixels */
+            width: 100%;  /* The width is the width of the web page */
+        }
+    </style>
+
     <!-- Header -->
     <header class="masthead">
         <div class="container">
@@ -17,9 +24,21 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <h2 class="section-heading text-uppercase">City game</h2>
-                    <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+                    <div id="map"></div>
                 </div>
             </div>
         </div>
     </section>
+
+    <script>
+        function initMap() {
+            var poznan = {lat: 52.406374, lng: 16.9251681};
+            var map = new google.maps.Map(
+                document.getElementById('map'), {zoom: 4, center: poznan});
+            //var marker = new google.maps.Marker({position: poznan, map: map});
+        }
+    </script>
+
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWaW4sfXx-XJYP9rPTIlh_VKKuuFTg2sU&callback=initMap"></script>
+
 {% endblock %}
