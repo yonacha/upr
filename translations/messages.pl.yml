@@ -1,0 +1,4 @@
+registration:
+  success: Konto zostało zarejestrowane
+login:
+  success: Zalogowano
