@@ -692,3 +692,10 @@ ul.social-buttons li a:active, ul.social-buttons li a:focus, ul.social-buttons l
 .section-grey {
   background-color: #ffeded;
 }
+
+.fixed-flash {
+  max-width: 20%;
+  position: fixed;
+  top: 150px;
+  right: 30px;
+}
