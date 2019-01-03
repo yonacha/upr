@@ -30,4 +30,14 @@ class NewsController extends AbstractController
     {
         return $this->render('News/list.html.twig');
     }
+
+    /**
+     * @Route("/add", name="news_add")
+     * @param Request $request
+     * @return Response
+     */
+    public function add(Request $request): Response
+    {
+        return $this->render('News/add.html.twig');
+    }
 }

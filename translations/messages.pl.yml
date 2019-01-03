@@ -2,3 +2,6 @@ registration:
   success: Konto zostało zarejestrowane
 login:
   success: Zalogowano
+news:
+  add: Dodaj nową wiadomość
+  interesting: Podziel sięz innymi użytkownikai ciekawymi informacjami o powstaniu
