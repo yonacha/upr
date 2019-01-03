@@ -1,13 +1,71 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+<!--
     <style>
         #map {
             height: 400px;  /* The height is 400 pixels */
             width: 100%;  /* The width is the width of the web page */
         }
     </style>
+--><style>
+    /* Always set the map height explicitly to define the size of the div
+     * element that contains the map. */
+    #map {
+        height: 100%;
+    }
+    /* Optional: Makes the sample page fill the window. */
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    .controls {
+        margin-top: 10px;
+        border: 1px solid transparent;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        height: 32px;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
 
+    #origin-input,
+    #destination-input {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 200px;
+    }
+
+    #origin-input:focus,
+    #destination-input:focus {
+        border-color: #4d90fe;
+    }
+
+    #mode-selector {
+        color: #fff;
+        background-color: #4d90fe;
+        margin-left: 12px;
+        padding: 5px 11px 0px 11px;
+    }
+
+    #mode-selector label {
+        font-family: Roboto;
+        font-size: 13px;
+        font-weight: 300;
+    }
+
+    #container2{
+        height: 600px;
+    }
+
+</style>
     <!-- Header -->
     <header class="masthead">
         <div class="container">
@@ -24,21 +82,34 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <h2 class="section-heading text-uppercase">City game</h2>
-                    <div id="map"></div>
+                    <div id="container2">
+
+                        <input id="origin-input" class="controls" type="text"
+                               placeholder="Enter an origin location">
+
+                        <input id="destination-input" class="controls" type="text"
+                               placeholder="Enter a destination location">
+
+                        <div id="mode-selector" class="controls">
+                            <input type="radio" name="type" id="changemode-walking" checked="checked">
+                            <label for="changemode-walking">Walking</label>
+
+                            <input type="radio" name="type" id="changemode-transit">
+                            <label for="changemode-transit">Transit</label>
+
+                            <input type="radio" name="type" id="changemode-driving">
+                            <label for="changemode-driving">Driving</label>
+                        </div>
+                        <div id="map"></div>
+
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <script>
-        function initMap() {
-            var poznan = {lat: 52.406374, lng: 16.9251681};
-            var map = new google.maps.Map(
-                document.getElementById('map'), {zoom: 4, center: poznan});
-            //var marker = new google.maps.Marker({position: poznan, map: map});
-        }
-    </script>
+    <script src="../js/CityGame/map.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWaW4sfXx-XJYP9rPTIlh_VKKuuFTg2sU&libraries=places&callback=initMap"></script>
 
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWaW4sfXx-XJYP9rPTIlh_VKKuuFTg2sU&callback=initMap"></script>
 
 {% endblock %}
