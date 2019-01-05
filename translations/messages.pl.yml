@@ -1,4 +1,6 @@
 add: Dodaj
+like: Lubię
+dont_like: Nie lubię
 registration:
   success: Konto zostało zarejestrowane
 login:
