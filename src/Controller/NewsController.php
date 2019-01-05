@@ -8,10 +8,21 @@
 
 namespace App\Controller;
 
+use App\Entity\News;
+use App\Form\NewsType;
+use App\Service\FileUploadService;
+use App\Service\NewsService;
+use App\Service\PageTools\PageTool;
+use App\Service\PageTools\PageToolContainer;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/news")
@@ -24,20 +35,64 @@ class NewsController extends AbstractController
     /**
      * @Route("/list", name="newslist")
      * @param Request $request
+     * @param NewsService $service
+     * @param PageToolContainer $toolContainer
+     * @param TranslatorInterface $translator
      * @return Response
      */
-    public function list(Request $request): Response
+    public function list(Request $request, NewsService $service, PageToolContainer $toolContainer, TranslatorInterface $translator): Response
     {
-        return $this->render('News/list.html.twig');
+        $toolContainer->addTool(new PageTool('news_add', $translator->trans('news.add')));
+
+        return $this->render('News/list.html.twig', [
+            'news' => $service->getAllNews(),
+            'tools' => $toolContainer->getTools(),
+        ]);
     }
 
     /**
      * @Route("/add", name="news_add")
      * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @param TranslatorInterface $translator
+     * @param FileUploadService $uploadService
      * @return Response
      */
-    public function add(Request $request): Response
+    public function add(Request $request, EntityManagerInterface $entityManager, TranslatorInterface $translator, FileUploadService $uploadService, PageToolContainer $toolContainer): Response
     {
-        return $this->render('News/add.html.twig');
+        $toolContainer->addTool(new PageTool('newslist', $translator->trans('news.list')));
+        if (!$user = $this->getUser()) {
+            throw new NotFoundHttpException('User not found in database');
+        }
+        $form = $this->createForm(NewsType::class, new News(), [
+            'user' => $user,
+        ]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $news = $form->getData();
+            $news->setInputUser($user);
+
+            /** @var UploadedFile $image */
+            $image = $news->getImage();
+            try {
+                $imageName = $uploadService->upload($image, $this->getParameter('news_image_dir')) ;
+            } catch (FileException $e) {
+                $this->addFlash('danger', $translator->trans('news.image_upload_problem'));
+
+                return $this->redirectToRoute('newslist');
+            }
+            $news->setImage($imageName);
+
+            $entityManager->persist($news);
+            $entityManager->flush();
+            $this->addFlash('success', $translator->trans('news.added'));
+
+            return $this->redirectToRoute('newslist');
+        }
+
+            return $this->render('News/add.html.twig', [
+            'form' => $form->createView(),
+            'tools' => $toolContainer->getTools(),
+        ]);
     }
 }

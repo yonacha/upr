@@ -14,6 +14,7 @@ namespace App\Entity;
  */
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class News
 {
@@ -25,6 +26,11 @@ class News
     private $id;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $link;
+
+    /**
      * @ORM\Column(type="string", length=40, unique=true, nullable=false)
      */
     private $title;
@@ -34,17 +40,36 @@ class News
      */
     private $description;
 
+    /*
+     *     minWidth = 200,
+     *     maxWidth = 400,
+     *     minHeight = 200,
+     *     maxHeight = 400
+     */
     /**
+     * @Assert\Image(
+     *
+     * )
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $image;
 
     /**
-     * One News has One User.
-     * @ORM\OneToOne(targetEntity="User")
+     * Many News has One User.
+     * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="input_user_id", referencedColumnName="id", nullable=false)
      */
     private $inputUser;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=false)
+     */
+    private $inputDate;
+
+    public function __construct()
+    {
+        $this->setInputDate(new \DateTime());
+    }
 
     /**
      * @return int
@@ -55,9 +80,25 @@ class News
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getTitle(): string
+    public function getLink()
+    {
+        return $this->link;
+    }
+
+    /**
+     * @param mixed $link
+     */
+    public function setLink($link): void
+    {
+        $this->link = $link;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getTitle(): ?string
     {
         return $this->title;
     }
@@ -74,9 +115,9 @@ class News
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -93,28 +134,28 @@ class News
     }
 
     /**
-     * @return null|string
-     */
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
-
-    /**
-     * @param null|string $image
+     * @param mixed $file
      * @return News
      */
-    public function setImage(?string $image): News
+    public function setImage($file = null): News
     {
-        $this->image = $image;
+        $this->image = $file;
 
         return $this;
     }
 
     /**
-     * @return User
+     * @return mixed
      */
-    public function getInputUser(): User
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @return User|null
+     */
+    public function getInputUser(): ?User
     {
         return $this->inputUser;
     }
@@ -126,5 +167,26 @@ class News
     public function setInputUser(User $user): News
     {
         $this->inputUser = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getInputDate(): \DateTime
+    {
+        return $this->inputDate;
+    }
+
+    /**
+     * @param \DateTime $inputDate
+     * @return News
+     */
+    public function setInputDate(\DateTime $inputDate): News
+    {
+        $this->inputDate = $inputDate;
+
+        return $this;
     }
 }

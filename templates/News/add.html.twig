@@ -1,23 +1,23 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <!-- Header -->
-    <header class="masthead">
-        <div class="container">
-            <div class="intro-text">
-                <div class="intro-lead-in">Welcome To Website!</div>
-                <div class="intro-heading text-uppercase">It's Nice To Meet You</div>
-                <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#services">Tell Me More</a>
-            </div>
-        </div>
-    </header>
-
     <section class="section-grey" id="services">
         <div class="container">
+            {% include 'PageTool/page_tools.html.twig' with {'tools':tools} %}
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <h2 class="section-heading">{{ 'news.add'|trans }}</h2>
                     <h3 class="section-subheading text-muted">{{ 'news.interesting'|trans }}</h3>
+                </div>
+                <div class="col-lg-12 text-center">
+                    {{ form_start(form) }}
+                    {{ form_row(form.link) }}
+                    {{ form_row(form.title) }}
+                    {{ form_row(form.description) }}
+                    {{ form_row(form.image) }}
+
+                    <input type="submit" class="btn" value="{{ 'add'|trans }}" />
+                    {{ form_end(form) }}
                 </div>
             </div>
         </div>
