@@ -95,4 +95,22 @@ class NewsController extends AbstractController
             'tools' => $toolContainer->getTools(),
         ]);
     }
+
+    /**
+     * @Route("/details/{id}", name="news_details", requirements={"id"="\d+"})
+     * @param Request $request
+     * @param News $news
+     * @param PageToolContainer $toolContainer
+     * @param TranslatorInterface $translator
+     * @return Response
+     */
+    public function details(Request $request, News $news, PageToolContainer $toolContainer, TranslatorInterface $translator): Response
+    {
+        $toolContainer->addTool(new PageTool('newslist', $translator->trans('news.back_to_list')));
+
+        return $this->render('News/details.html.twig', [
+            'news' => $news,
+            'tools' => $toolContainer->getTools(),
+        ]);
+    }
 }

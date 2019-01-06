@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/news/news.css') }}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block body %}
+    <section class="section-grey" id="services">
+        <div class="container">
+            {% include 'PageTool/page_tools.html.twig' with {'tools':tools} %}
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    {% include 'News/news.html.twig' with {'item':news} %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
