@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <h2 class="section-heading text-uppercase">{{ 'news.list'|trans }}</h2>
-                    <h3 class="section-subheading text-muted">Zawiera odnośniki do zewnętrznych artykułów</h3>
+                    <h3 class="section-subheading text-muted">{{ 'news.external_link'|trans }}</h3>
                     {% if news is defined %}
                         {% for item in news %}
                             {% include 'News/news.html.twig' with {'item':item} %}
@@ -22,4 +22,9 @@
             </div>
         </div>
     </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/news/likes.js') }}"></script>
 {% endblock %}

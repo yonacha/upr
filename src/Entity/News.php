@@ -12,7 +12,10 @@ namespace App\Entity;
  * @ORM\Entity(repositoryClass="App\Repository\NewsRepository")
  * @UniqueEntity(fields={"title"}, message="Znajduje się już wpis o takim tytule")
  */
+
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Mixed_;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -36,7 +39,7 @@ class News
     private $title;
 
     /**
-     * @ORM\Column(type="text", length=1024, nullable=false)
+     * @ORM\Column(type="string", length=400, nullable=false)
      */
     private $description;
 
@@ -62,13 +65,30 @@ class News
     private $inputUser;
 
     /**
+     * One News has Many Comment.
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="news")
+     */
+    private $comments;
+
+    /**
      * @ORM\Column(type="datetime", nullable=false)
      */
     private $inputDate;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true, options={"default" : 0})
+     */
+    private $likes = 0;
+
+    /**
+     * @ORM\Column(type="string", length=4069, options={"default" : ""})
+     */
+    private $userLikes = '';
+
     public function __construct()
     {
         $this->setInputDate(new \DateTime());
+        $this->comments = new ArrayCollection();
     }
 
     /**
@@ -189,4 +209,80 @@ class News
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param Comment $comment
+     * @return $this
+     */
+    public function addComments(Comment $comment): News
+    {
+        $this->comments->add($comment);
+
+        return $this;
+    }
+
+    /**
+     * @return News
+     */
+    public function addLikes(): News
+    {
+        ++$this->likes;
+
+        return $this;
+    }
+
+    /**
+     * @return News
+     */
+    public function removeLikes(): News
+    {
+         --$this->likes;
+
+         return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLikes(): int
+    {
+        return $this->likes;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserLikes(): string
+    {
+        return $this->userLikes;
+    }
+
+    /**
+     * @param string $userId
+     * @return News
+     */
+    public function addUserLikes(string $userId): News
+    {
+        $this->userLikes.=$userId;
+
+        return $this;
+    }
+
+    /**
+     * @param string $userId
+     * @return News
+     */
+    public function removeUserLikes(string $userId): News
+    {
+        $this->userLikes = str_replace($userId, '', $this->userLikes);
+    }
+
 }

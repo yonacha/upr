@@ -7,6 +7,9 @@
             </div>
             <div class="col-md-10">
                 <p>
+                    {% if item.link is defined %}
+                        <a class="float-right" href="{{ item.link }}" target="_blank"><strong>Przejdź do artykułu</strong></a>
+                    {% endif %}
                     <a class="float-left" href="{{ path('news_details', {'id':item.id})  }}"><strong>{{ item.title }}</strong></a>
                 </p>
                 <div class="clearfix"></div>
@@ -17,9 +20,9 @@
     </div>
     <div class="bottom-right-fixed">
         <p>
-            <a class="float-right btn btn-danger btn-sm ml-2"> <i class="fa fa-thumbs-down"></i> {{ 'dont_like'|trans }}</a>
-            <a class="float-right btn text-white btn-success btn-sm ml-2"> <i class="fa fa-thumbs-up"></i> {{ 'like'|trans }}</a>
-            <a class="float-right btn text-white btn-primary btn-sm">Count</a>
+            <a id="dislike" data-id="{{ item.id }}" class="float-right btn text-white btn-secondary btn-sm ml-2 dislike-button"> <i class="fa fa-thumbs-down"></i> {{ 'dont_like'|trans }}</a>
+            <a id="like" data-id="{{ item.id }}" class="float-right btn text-white btn-secondary btn-sm ml-2 like-button"> <i class="fa fa-thumbs-up"></i> {{ 'like'|trans }}</a>
+            <a class="float-right btn text-white btn-secondary btn-sm"> {{ 'score'|trans }}: <span id="{{ item.id }}">{{ item.likes }}</span> </a>
         </p>
     </div>
 </div>

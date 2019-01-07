@@ -9,12 +9,8 @@
 namespace App\Form;
 
 use App\Entity\News;
-use App\Form\EventListener\AddInputUserListener;
-use phpDocumentor\Reflection\DocBlock\Tags\Reference\Url;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
@@ -23,7 +19,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class NewsType extends AbstractType
 {
-
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -44,6 +39,9 @@ class NewsType extends AbstractType
                 'required' => true,
                 'empty_data' => 'Opis',
                 'label' => 'Opis wiadomości',
+                'attr' => [
+                    'maxlength' => 400
+                ]
             ])
             ->add('image', FileType::class, [
                 'empty_data' => 'Zdjęcie',
@@ -58,7 +56,6 @@ class NewsType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => News::class,
-            'user' => NULL,
         ]);
     }
 }

@@ -8,13 +8,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\News;
+use App\Form\CommentType;
 use App\Form\NewsType;
 use App\Service\FileUploadService;
 use App\Service\NewsService;
 use App\Service\PageTools\PageTool;
 use App\Service\PageTools\PageToolContainer;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\PersistentCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -64,9 +67,7 @@ class NewsController extends AbstractController
         if (!$user = $this->getUser()) {
             throw new NotFoundHttpException('User not found in database');
         }
-        $form = $this->createForm(NewsType::class, new News(), [
-            'user' => $user,
-        ]);
+        $form = $this->createForm(NewsType::class, new News());
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $news = $form->getData();
@@ -102,15 +103,34 @@ class NewsController extends AbstractController
      * @param News $news
      * @param PageToolContainer $toolContainer
      * @param TranslatorInterface $translator
+     * @param EntityManagerInterface $entityManager
      * @return Response
      */
-    public function details(Request $request, News $news, PageToolContainer $toolContainer, TranslatorInterface $translator): Response
+    public function details(Request $request, News $news, PageToolContainer $toolContainer, TranslatorInterface $translator, EntityManagerInterface $entityManager): Response
     {
         $toolContainer->addTool(new PageTool('newslist', $translator->trans('news.back_to_list')));
 
+        $form = $this->createForm(CommentType::class, new Comment());
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Comment $comment */
+            $comment = $form->getData();
+            $comment->setNews($news);
+            $comment->setInputUser($this->getUser());
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            $this->addFlash('success', $translator->trans('comments.added'));
+            return $this->redirectToRoute('news_details', ['id' => $news->getId()]);
+        }
+
+        /** @var PersistentCollection $comments */
+        $comments = $news->getComments();
         return $this->render('News/details.html.twig', [
             'news' => $news,
             'tools' => $toolContainer->getTools(),
+            'form' => $form->createView(),
+            'comments' => $comments->isEmpty() ? null : $comments,
         ]);
     }
 }
