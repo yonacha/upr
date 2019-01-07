@@ -32,7 +32,9 @@
         <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
         <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
         <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
         <link href="{{ asset('css/base.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/fireSpark/style.css') }}" rel="stylesheet">
     {% endblock %}
 
 </head>
@@ -88,10 +90,11 @@
 {% block body %}
 <!-- Header -->
 <header class="masthead">
+    <div id="particles-js"></div>
     <div class="container">
         <div class="intro-text">
             <div class="intro-lead-in">Welcome To Website!</div>
-            <div class="intro-heading text-uppercase">It's Nice To Meet You</div>
+            <div class="intro-heading text-uppercase">UPRISING</div>
             <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#services">Tell Me More</a>
         </div>
     </div>
@@ -118,21 +121,15 @@
             </div>
             <div class="col-md-4">
                 <ul class="list-inline social-buttons">
-                    <li class="list-inline-item">
-                        <a href="#">
-
-                        </a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a href="#">
-
-                        </a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a href="#">
-
-                        </a>
-                    </li>
+                    <a href="https://www.facebook.com/ ">
+                        <i class="fab fa-facebook-square"></i>
+                    </a>
+                    <a href="https://github.com/walkoda/uprising">
+                        <i class="fab fa-github-square"></i>
+                    </a>
+                    <a href="https://www.reddit.com/">
+                        <i class="fab fa-reddit-square"></i>
+                    </a>
                 </ul>
             </div>
             <div class="col-md-4">
@@ -154,6 +151,8 @@
     <script src="{{ asset('js/vendor/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('js/vendor/jquery.easing.min.js') }}"></script>
     <script src="{{ asset('js/base.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="{{ asset('js/fireSpark/index.js') }}"></script>
 {% endblock %}
 
 </body>
