@@ -20,6 +20,7 @@
     </div>
     <div class="bottom-right-fixed">
         <p>
+            {% if app.user %}
             <a id="dislike" data-id="{{ item.id }}" class="float-right btn text-white btn-secondary btn-sm ml-2 dislike-button
                 {% if ';'~app.user.id~';' in item.userDislikes %}
                     btn-danger
@@ -34,6 +35,7 @@
                     btn-secondary
                 {% endif %}
             "> <i class="fa fa-thumbs-up"></i> {{ 'like'|trans }}</a>
+            {% endif %}
             <a class="float-right btn text-white btn-secondary btn-sm"> {{ 'score'|trans }}: <span id="{{ item.id }}">{{ item.likes }}</span> </a>
         </p>
     </div>

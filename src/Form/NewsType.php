@@ -40,7 +40,7 @@ class NewsType extends AbstractType
                 'empty_data' => 'Opis',
                 'label' => 'Opis wiadomości',
                 'attr' => [
-                    'maxlength' => 400
+                    'maxlength' => 600
                 ]
             ])
             ->add('image', FileType::class, [

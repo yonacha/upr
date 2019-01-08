@@ -39,7 +39,7 @@ class News
     private $title;
 
     /**
-     * @ORM\Column(type="string", length=400, nullable=false)
+     * @ORM\Column(type="string", length=500, nullable=false)
      */
     private $description;
 
