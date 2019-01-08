@@ -194,6 +194,8 @@ header.masthead .intro-text .intro-heading {
 
 @media (min-width: 768px) {
   header.masthead .intro-text {
+    z-index: 1;
+    position: relative;
     padding-top: 300px;
     padding-bottom: 200px;
   }
