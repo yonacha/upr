@@ -30,6 +30,6 @@ class NewsService
      */
     public function getAllNews(): array
     {
-        return $this->newsRepo->findAll();
+        return $this->newsRepo->findBy([], ['inputDate' => 'DESC']);
     }
 }

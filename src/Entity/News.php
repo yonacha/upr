@@ -85,6 +85,11 @@ class News
      */
     private $userLikes = '';
 
+    /**
+     * @ORM\Column(type="string", length=4069, options={"default" : ""})
+     */
+    private $userDislikes = '';
+
     public function __construct()
     {
         $this->setInputDate(new \DateTime());
@@ -283,6 +288,38 @@ class News
     public function removeUserLikes(string $userId): News
     {
         $this->userLikes = str_replace($userId, '', $this->userLikes);
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserDislikes(): string
+    {
+        return $this->userDislikes;
+    }
+
+    /**
+     * @param string $userId
+     * @return News
+     */
+    public function addUserDislikes(string $userId): News
+    {
+        $this->userDislikes.=$userId;
+
+        return $this;
+    }
+
+    /**
+     * @param string $userId
+     * @return News
+     */
+    public function removeUserDislikes(string $userId): News
+    {
+        $this->userDislikes = str_replace($userId, '', $this->userDislikes);
+
+        return $this;
     }
 
 }

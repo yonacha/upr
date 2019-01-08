@@ -62,3 +62,8 @@
         </div>
     </section>
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/news/likes.js') }}"></script>
+{% endblock %}

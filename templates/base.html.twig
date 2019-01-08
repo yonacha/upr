@@ -141,6 +141,15 @@
     <script src="{{ asset('js/vendor/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('js/vendor/jquery.easing.min.js') }}"></script>
     <script src="{{ asset('js/base.min.js') }}"></script>
+    <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+    <script>
+        const routes = require('../public/js/fos_js_routes.json');
+        import Routing from '../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';
+        Routing.setRoutingData(routes);
+    </script>
+
+
 {% endblock %}
 
 </body>
