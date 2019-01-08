@@ -1,0 +1,42 @@
+<div class="card news-card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-2">
+                <img src="{{ asset('images/news/' ~ item.image) }}" class="img img-fluid img-80-height"/>
+                <p class="text-secondary text-center">{{ item.inputDate|date('m:d:Y \\o h:i') }} przez {{ item.inputUser.getName() }}</p>
+            </div>
+            <div class="col-md-10">
+                <p>
+                    {% if item.link is defined %}
+                        <a class="float-right" href="{{ item.link }}" target="_blank"><strong>{{ 'news.to_link'|trans }}</strong></a>
+                    {% endif %}
+                    <a class="float-left" href="{{ path('news_details', {'id':item.id})  }}"><strong>{{ item.title }}</strong></a>
+                </p>
+                <div class="clearfix"></div>
+                <p>{{ item.description }}</p>
+
+            </div>
+        </div>
+    </div>
+    <div class="bottom-right-fixed">
+        <p>
+            {% if app.user %}
+            <a id="dislike" data-id="{{ item.id }}" class="float-right btn text-white btn-secondary btn-sm ml-2 dislike-button
+                {% if ';'~app.user.id~';' in item.userDislikes %}
+                    btn-danger
+                {% else %}
+                    btn-secondary
+                {% endif %}
+            "> <i class="fa fa-thumbs-down"></i> {{ 'dont_like'|trans }}</a>
+            <a id="like" data-id="{{ item.id }}" class="float-right btn text-white btn-sm ml-2 like-button
+                {% if ';'~app.user.id~';' in item.userLikes %}
+                    btn-success
+                {% else %}
+                    btn-secondary
+                {% endif %}
+            "> <i class="fa fa-thumbs-up"></i> {{ 'like'|trans }}</a>
+            {% endif %}
+            <a class="float-right btn text-white btn-secondary btn-sm"> {{ 'score'|trans }}: <span id="{{ item.id }}">{{ item.likes }}</span> </a>
+        </p>
+    </div>
+</div>

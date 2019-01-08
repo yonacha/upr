@@ -1,4 +1,21 @@
+add: Dodaj
+score: Punkty
+like: Lubię
+dont_like: Nie lubię
 registration:
   success: Konto zostało zarejestrowane
 login:
   success: Zalogowano
+news:
+  list: Lista wiadomości o powstaniu
+  add: Dodaj nową wiadomość
+  added: Dodano nową wiadomość
+  interesting: Podziel się z innymi użytkownikai ciekawymi informacjami o powstaniu
+  image_upload_problem: Wystąpił problem z przesyłaniem pliku
+  back_to_list: Powrót do listy
+  external_link: Zawiera odnośniki do zewnętrznych artykułów
+  to_link: Otwórz link
+comments:
+  comments: Komentarze
+  added: Dodano komentarz
+  sign_in_to_comment: Zaloguj się, żeby komentować

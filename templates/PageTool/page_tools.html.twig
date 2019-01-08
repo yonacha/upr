@@ -1,0 +1,7 @@
+<div class="row" style="margin-bottom: 20px">
+    <div class="col-lg-12 text-left">
+        {% for tool in tools %}
+            <a href="{{ path('' ~ tool.routeName) }}" class="btn btn-secondary">{{ tool.translation }}</a>
+        {% endfor %}
+    </div>
+</div>
