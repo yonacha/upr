@@ -10,6 +10,7 @@ namespace App\Controller;
 
 use App\Entity\Level;
 use App\Repository\LevelRepository;
+use App\Repository\UserScoreRepository;
 use App\Service\LevelService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -31,18 +32,26 @@ class CityGame extends AbstractController
      * @param int $id
      * @param LevelRepository $lvlRepo
      * @param LevelService $lvlService
+     * @param UserScoreRepository $userScoreRepo
      * @return Response
      */
-    public function show(int $id, LevelRepository $lvlRepo, LevelService $lvlService): Response
+    public function show(int $id, LevelRepository $lvlRepo, LevelService $lvlService, UserScoreRepository $userScoreRepo): Response
     {
-        if ($this->getUser() && $id) {
+        if ($this->getUser() && $lvlRepo->find($id)) {
             $lvl = $lvlRepo->find($id);
             $lvlTransData = $lvlService->getLvlTransofrmData($lvl);
+        }
+        if ($this->getUser()) {
+            $scores = $userScoreRepo->findBy(['user' => $this->getUser()]);
+            if ($scores) {
+                $lvlsCompleted = $lvlService->getLvlsFromUserScores($userScoreRepo->findBy(['user' => $this->getUser()]));
+            }
         }
         return $this->render('CityGame/show.html.twig', [
             'lvl' => $lvl ?? NULL,
             'lvls' => $lvlRepo->findAll() ?? NULL,
             'lvl_trans_data' => $lvlTransData ?? NULL,
+            'lvls_completed' => $lvlsCompleted ?? NULL
         ]);
     }
 

@@ -90,7 +90,6 @@
         </div>
     </section>
 
-
 {% endblock %}
 
 {% block javascripts %}
@@ -109,7 +108,14 @@
             var marker = new google.maps.Marker({
                 position: {lat: {{ item.lat }}, lng: {{ item.long}}},
                 map: map,
-                title: 'Zdobycie prezydium policji'
+                title: 'Zdobycie prezydium policji',
+                icon: {
+                    {% if item in lvls_completed %}
+                        url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+                    {% else %}
+                        url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
+                    {% endif %}
+                }
             });
 
             marker.addListener('click', function() {

@@ -14,6 +14,7 @@ use App\Entity\User;
 use App\Entity\UserScore;
 use App\Repository\LevelRepository;
 use App\Repository\UserScoreRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -159,5 +160,19 @@ class LevelService
         }
 
         return false;
+    }
+
+    /**
+     * @param array $userScores
+     * @return array
+     */
+    public function getLvlsFromUserScores(array $userScores): array
+    {
+        $res = [];
+        foreach ($userScores as $score) {
+            $res[] = $score->getLevel();
+        }
+
+        return $res;
     }
 }
