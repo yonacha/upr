@@ -20,39 +20,65 @@ class LikeService
     /** @var EntityManagerInterface */
     private $entityManager;
 
+    /**
+     * LikeService constructor.
+     * @param EntityManagerInterface $entityManager
+     */
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }
 
-    public function likeNews(News $news, User $user) {
+    /**
+     * @param News $news
+     * @param User $user
+     * @return bool
+     */
+    public function likeNews(News $news, User $user): bool
+    {
         $this->userIdString = ';'.$user->getId().';';
 
-        return $this->canLike($news, $user);
+        return $this->canLike($news);
     }
 
-    public function canLike(News $news)
+    /**
+     * @param News $news
+     * @return bool
+     */
+    public function canLike(News $news): bool
     {
-        if (strpos($news->getUserLikes(), $this->userIdString) === false) {
+        if (strpos($news->getUserLikes(), $this->userIdString) === false)
+        {
             $news->addLikes();
             $news->addUserLikes($this->userIdString);
             $news->removeUserDislikes($this->userIdString);
 
             $this->entityManager->flush();
+
             return true;
         } else {
+
             return false;
         }
     }
 
-    public function dislikeNews(News $news, User $user)
+    /**
+     * @param News $news
+     * @param User $user
+     * @return bool
+     */
+    public function dislikeNews(News $news, User $user): bool
     {
         $this->userIdString = ';'.$user->getId().';';
 
-        return $this->canDislike($news, $user);
+        return $this->canDislike($news);
     }
 
-    public function canDislike(News $news)
+    /**
+     * @param News $news
+     * @return bool
+     */
+    public function canDislike(News $news): bool
     {
         if (strpos($news->getUserDislikes(), $this->userIdString) === false) {
             $news->removeLikes();
@@ -60,8 +86,10 @@ class LikeService
             $news->removeUserLikes($this->userIdString);
 
             $this->entityManager->flush();
+
             return true;
         } else {
+
         return false;}
     }
 }
