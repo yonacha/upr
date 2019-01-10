@@ -2,7 +2,8 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link href="{{ asset('../css/CityGame/map.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/CityGame/map.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/CityGame/funky-radio.css') }}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block body %}
@@ -10,7 +11,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <h2 class="section-heading text-uppercase">City game</h2>
+                    <h2 class="section-heading text-uppercase">{{ 'city_game.title'|trans }}</h2>
+                    <h3 class="section-subheading text-muted">{{ 'city_game.test_your_knowledge'|trans }}</h3>
+
                     <div id="container2">
 
                         <input id="origin-input" class="controls" type="text"
@@ -34,11 +37,207 @@
                     </div>
                 </div>
             </div>
+            <div class="row" style="margin-top: 20px">
+                <div class="col-lg-12 text-center">
+                    {% if app.user %}
+                        <h3 class="section-subheading text-muted">{{ 'city_game.select_task'|trans }}</h3>
+                    {% else %}
+                        <h3 class="section-subheading text-muted">{{ 'city_game.sign_in_first'|trans }}</h3>
+                    {% endif %}
+                </div>
+            </div>
+
+            {% if app.user and lvl %}
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="game-board">
+                        <div class="card border-secondary mb-3">
+                            <div class="card-header">{{ 'city_game.title'|trans }}</div>
+                            <div class="card-body text-secondary">
+                                <h5 class="card-title"> {{ lvl.lvlLabel }} </h5>
+                                <p class="card-text"> {{ lvl.lvlDescr }} </p>
+                                <h5 class="card-title top-40"> {{ lvl.chronologyLabel }} </h5>
+                                <ul id="sortable" style="margin: auto">
+                                    {% for chrono in lvl_trans_data.chrono_options %}
+                                        <li class="ui-state-default"><p class="card-text chrono chrono{{ loop.index }}"> {{ chrono }} </p></li>
+                                    {% endfor %}
+                                </ul>
+                                <h5 class="card-title top-40"> {{ lvl.optionsLabel }} </h5>
+                                <div class="funkyradio">
+                                    {% for radio in lvl_trans_data.radio_options %}
+                                        <div class="funkyradio-default">
+                                            <input type="radio" name="radio" id="radio{{ loop.index }}" />
+                                            <label for="radio{{ loop.index }}">{{ radio }}</label>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <h5 class="card-title top-40"> {{ lvl.dateLabel }} </h5>
+                                <div class="centered">
+                                    <input class="form-control" type="date" id="date-question">
+                                </div>
+                                <h5 class="card-title top-40"> {{ lvl.questionLabel }} </h5>
+                                <div class="centered">
+                                    <input type="text" class="form-control" id="question-question">
+                                </div>
+                                <h5 class="card-title top-40"> {{ 'city_game.save_answer'|trans }} </h5>
+                                <button id="game-saver" class="btn btn-secondary"> {{ 'send'|trans }} </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
         </div>
     </section>
 
-    <script src="../js/CityGame/map.js"></script>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        function initMap() {
+            var myLatLng = {lat: 52.408116, lng: 16.926869};
+            var map = new google.maps.Map(document.getElementById('map'), {
+                mapTypeControl: false,
+                center: {lat: 52.408116, lng: 16.926869},
+                zoom: 15
+            });
+
+            {% if lvls %}
+            {% for item in lvls %}
+            var marker = new google.maps.Marker({
+                position: {lat: {{ item.lat }}, lng: {{ item.long}}},
+                map: map,
+                title: 'Zdobycie prezydium policji'
+            });
+
+            marker.addListener('click', function() {
+                window.location.replace(Routing.generate('citygameshow', {'id':{{ item.id }}}));
+            });
+            {% endfor %}
+            {% endif %}
+            new AutocompleteDirectionsHandler(map);
+        }
+
+        /**
+         * @constructor
+         */
+        function AutocompleteDirectionsHandler(map) {
+            this.map = map;
+            this.originPlaceId = null;
+            this.destinationPlaceId = null;
+            this.travelMode = 'WALKING';
+            var originInput = document.getElementById('origin-input');
+            var destinationInput = document.getElementById('destination-input');
+            var modeSelector = document.getElementById('mode-selector');
+            this.directionsService = new google.maps.DirectionsService;
+            this.directionsDisplay = new google.maps.DirectionsRenderer;
+            this.directionsDisplay.setMap(map);
+
+            var originAutocomplete = new google.maps.places.Autocomplete(
+                originInput, {placeIdOnly: true});
+            var destinationAutocomplete = new google.maps.places.Autocomplete(
+                destinationInput, {placeIdOnly: true});
+
+            this.setupClickListener('changemode-walking', 'WALKING');
+            this.setupClickListener('changemode-transit', 'TRANSIT');
+            this.setupClickListener('changemode-driving', 'DRIVING');
+
+            this.setupPlaceChangedListener(originAutocomplete, 'ORIG');
+            this.setupPlaceChangedListener(destinationAutocomplete, 'DEST');
+
+            this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(originInput);
+            this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(destinationInput);
+            this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(modeSelector);
+        }
+
+        // Sets a listener on a radio button to change the filter type on Places
+        // Autocomplete.
+        AutocompleteDirectionsHandler.prototype.setupClickListener = function(id, mode) {
+            var radioButton = document.getElementById(id);
+            var me = this;
+            radioButton.addEventListener('click', function() {
+                me.travelMode = mode;
+                me.route();
+            });
+        };
+
+        AutocompleteDirectionsHandler.prototype.setupPlaceChangedListener = function(autocomplete, mode) {
+            var me = this;
+            autocomplete.bindTo('bounds', this.map);
+            autocomplete.addListener('place_changed', function() {
+                var place = autocomplete.getPlace();
+                if (!place.place_id) {
+                    window.alert("Please select an option from the dropdown list.");
+                    return;
+                }
+                if (mode === 'ORIG') {
+                    me.originPlaceId = place.place_id;
+                } else {
+                    me.destinationPlaceId = place.place_id;
+                }
+                me.route();
+            });
+
+        };
+
+        AutocompleteDirectionsHandler.prototype.route = function() {
+            if (!this.originPlaceId || !this.destinationPlaceId) {
+                return;
+            }
+            var me = this;
+
+            this.directionsService.route({
+                origin: {'placeId': this.originPlaceId},
+                destination: {'placeId': this.destinationPlaceId},
+                travelMode: this.travelMode
+            }, function(response, status) {
+                if (status === 'OK') {
+                    me.directionsDisplay.setDirections(response);
+                } else {
+                    window.alert('Directions request failed due to ' + status);
+                }
+            });
+        };
+
+    </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWaW4sfXx-XJYP9rPTIlh_VKKuuFTg2sU&libraries=places&callback=initMap"></script>
 
 
+    <script>
+        {% if app.user and lvl %}
+        $( document ).ready(function() {
+            $( "#sortable" ).sortable();
+            $( "#sortable" ).disableSelection();
+            $('#game-saver').click(function () {
+                var task1 = [];
+                $('.chrono').each(function (index) {
+                    task1.push($( this ).text());
+                });
+                var task2;
+                $("input[id^='radio'][class='selected']");
+                task2 = ($(".selected").next().text());
+                var task3;
+                task3 = ($('#date-question').val());
+                var task4;
+                task4 = ($('#question-question').val());
+
+                jQuery.ajax({
+                    type: "POST",
+                    url: Routing.generate('citygame_save', {'id':{{ lvl.id }}}),
+                    data: {'task1':task1,'task2':task2,'task3':task3,'task4':task4},
+                    success: function (result) {
+                        window.location.replace(Routing.generate('citygameshow'));
+                    },
+                    async: false
+                });
+            });
+            $("input[id^='radio']").click(function () {
+                $("input[id^='radio']").removeClass('selected');
+                $( this ).addClass('selected');
+            });
+        });
+        {% endif %}
+    </script>
 {% endblock %}

@@ -2,6 +2,7 @@ add: Dodaj
 score: Punkty
 like: Lubię
 dont_like: Nie lubię
+send: Wyślij
 registration:
   success: Konto zostało zarejestrowane
 login:
@@ -19,3 +20,10 @@ comments:
   comments: Komentarze
   added: Dodano komentarz
   sign_in_to_comment: Zaloguj się, żeby komentować
+city_game:
+  title: Śladami Powstania Wielkopolskiego
+  test_your_knowledge: sprawdź swoją wiedzę na temat Powstania
+  select_task: Wybierz pozycję z mapy w celu wyboru zadania
+  sign_in_first: Aby rozpocząć grę, zaloguj się.
+  save_answer: Zatwierdź odpowiedzi
+  saved: Zapisano postęp w grze

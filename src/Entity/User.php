@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -39,6 +40,17 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * One User has Many UserScore.
+     * @ORM\OneToMany(targetEntity="UserScore", mappedBy="user")
+     */
+    private $userScores;
+
+    public function __construct()
+    {
+        $this->userScores = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -134,5 +146,24 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUserScores()
+    {
+        return $this->userScores;
+    }
+
+    /**
+     * @param UserScore $userScore
+     * @return User
+     */
+    public function addUserScores(UserScore $userScore): User
+    {
+        $this->userScores->add($userScore);
+
+        return $this;
     }
 }
