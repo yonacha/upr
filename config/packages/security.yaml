@@ -29,10 +29,16 @@ security:
 
             # form_login: true
             # https://symfony.com/doc/current/security/form_login_setup.html
-
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/news/add, roles: ROLE_USER }
+        - { path: ^/admin_panel/show, roles: ROLE_ADMIN }
+        - { path: ^/admin_panel/game, roles: ROLE_ADMIN }
+        - { path: ^/admin_panel/game/new, roles: ROLE_ADMIN }
+        - { path: ^/admin_panel/game/edit, roles: ROLE_ADMIN }
+        - { path: ^/admin_panel/news_delete/delete, roles: ROLE_ADMIN }
