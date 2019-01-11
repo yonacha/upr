@@ -10,26 +10,31 @@
             {% include 'PageTool/page_tools.html.twig' with {'tools':tools} %}
             <div class="row">
                 <div class="col-lg-12 text-center">
+                    <h2 class="section-heading text-uppercase">{{ 'city_game.score_board'|trans }}</h2>
+                </div>
+            </div>
+            {% if rank %}
+            <div class="row">
+                <div class="col-lg-12 text-center">
                     <table class="table table-bordered">
                         <thead>
                         <tr>
-                            <th scope="col">Id</th>
                             <th scope="col">Nazwa</th>
-                            <th scope="col">Akcje</th>
+                            <th scope="col">Punkty</th>
                         </tr>
                         </thead>
                         <tbody>
-                            {% for lvl in lvls %}
-                                <tr>
-                                    <td>{{ lvl.id }}</td>
-                                    <td>{{ lvl.lvlLabel }}</td>
-                                    <td><a href="{{ path('admin_panel_game_edit', {'id': lvl.id }) }}" class="btn btn-secondary">{{ 'edit'|trans }}</a></td>
-                                </tr>
-                            {% endfor %}
+                        {% for item in rank %}
+                            <tr>
+                                <td>{{ item[0] }}</td>
+                                <td>{{ item[1] }}</td>
+                            </tr>
+                        {% endfor %}
                         </tbody>
                     </table>
                 </div>
             </div>
+            {% endif %}
         </div>
     </section>
 {% endblock %}

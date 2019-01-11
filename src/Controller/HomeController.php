@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     /**
-     * @Route("/")
+     * @Route("/",  name="home_page")
      * @param Request $request
      * @return Response
      */

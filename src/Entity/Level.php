@@ -24,19 +24,14 @@ class Level
     private $id;
 
     /**
-     * @ORM\Column(type="integer", nullable=false)
+     * @ORM\Column(type="float", nullable=false)
      */
-    private $position;
+    private $latt;
 
     /**
      * @ORM\Column(type="float", nullable=false)
      */
-    private $lat;
-
-    /**
-     * @ORM\Column(type="float", nullable=false)
-     */
-    private $long;
+    private $longg;
 
     /**
      * @ORM\Column(type="string", length=1024, nullable=false)
@@ -86,22 +81,12 @@ class Level
     /**
      * @ORM\Column(type="date", nullable=false)
      */
-    private $date;
-
-    /**
-     * @ORM\Column(type="date", nullable=false)
-     */
     private $dateAnswer;
 
     /**
      * @ORM\Column(type="string", length=200, nullable=false)
      */
     private $questionLabel;
-
-    /**
-     * @ORM\Column(type="string", length=200, nullable=false)
-     */
-    private $question;
 
     /**
      * @ORM\Column(type="string", length=200, nullable=false)
@@ -125,25 +110,6 @@ class Level
     public function getId(): int
     {
         return $this->id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getPosition(): ?int
-    {
-        return $this->position;
-    }
-
-    /**
-     * @param int $position
-     * @return Level
-     */
-    public function setPosition(int $position): Level
-    {
-        $this->position = $position;
-
-        return $this;
     }
 
     /**
@@ -263,18 +229,18 @@ class Level
     /**
      * @return float|null
      */
-    public function getLat(): ?float
+    public function getLatt(): ?float
     {
-        return $this->lat;
+        return $this->latt;
     }
 
     /**
      * @param float $lat
      * @return Level
      */
-    public function setLat(float $lat): Level
+    public function setLatt(float $lat): Level
     {
-        $this->lat = $lat;
+        $this->latt = $lat;
 
         return $this;
     }
@@ -282,18 +248,18 @@ class Level
     /**
      * @return float|null
      */
-    public function getLong(): ?float
+    public function getLongg(): ?float
     {
-        return $this->long;
+        return $this->longg;
     }
 
     /**
      * @param float $long
      * @return Level
      */
-    public function setLong(float $long): Level
+    public function setLongg(float $long): Level
     {
-        $this->long = $long;
+        $this->longg = $long;
 
         return $this;
     }
@@ -390,25 +356,6 @@ class Level
     public function setDateAnswer(\DateTime $date): Level
     {
         $this->dateAnswer = $date;
-
-        return $this;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getQuestion(): ?string
-    {
-        return $this->question;
-    }
-
-    /**
-     * @param string $question
-     * @return Level
-     */
-    public function setQuestion(string $question): Level
-    {
-        $this->question = $question;
 
         return $this;
     }

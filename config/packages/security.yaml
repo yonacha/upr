@@ -38,3 +38,7 @@ security:
         # - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/news/add, roles: ROLE_USER }
         - { path: ^/admin_panel/show, roles: ROLE_ADMIN }
+        - { path: ^/admin_panel/game, roles: ROLE_ADMIN }
+        - { path: ^/admin_panel/game/new, roles: ROLE_ADMIN }
+        - { path: ^/admin_panel/game/edit, roles: ROLE_ADMIN }
+        - { path: ^/admin_panel/news_delete/delete, roles: ROLE_ADMIN }

@@ -3,6 +3,9 @@ score: Punkty
 like: Lubię
 dont_like: Nie lubię
 send: Wyślij
+save: Zapisz
+edit: Edytuj
+remove: Usuń
 registration:
   success: Konto zostało zarejestrowane
 login:
@@ -16,6 +19,7 @@ news:
   back_to_list: Powrót do listy
   external_link: Zawiera odnośniki do zewnętrznych artykułów
   to_link: Otwórz link
+  removed: Usunięto wiadomość
 comments:
   comments: Komentarze
   added: Dodano komentarz
@@ -29,5 +33,8 @@ city_game:
   saved: Zapisano postęp w grze
   gmae_config: Konfigurator gry
   add_new: Dodaj nowe zadanie
+  added: Zapisano zadanie
+  score_board: Ranking
+  back_to_game: Wróć do gry
 admin:
   panel: Panel administracyjny
