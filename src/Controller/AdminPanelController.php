@@ -117,7 +117,7 @@ class AdminPanelController extends AbstractController
 
             return $this->redirectToRoute('admin_panel_game');
         }
-        return $this->render('admin/game_edit.html.twig', [
+        return $this->render('Admin/game_edit.html.twig', [
             'admin' => $this->getUser(),
             'tools' => $toolContainer->getTools(),
             'form' => $form->createView(),
