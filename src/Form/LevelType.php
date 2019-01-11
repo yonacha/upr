@@ -41,16 +41,10 @@ class LevelType extends AbstractType
             ->add('lvlDescr', TextType::class, [
                 'required' => true,
                 'label' => 'Opis zadania',
-                'attr' => [
-                    'maxlength' => 2048
-                ]
             ])
             ->add('lvlDescr', TextType::class, [
                 'required' => true,
                 'label' => 'Opis zadania',
-                'attr' => [
-                    'maxlength' => 2048
-                ]
             ])
             ->add('chronologyLabel', TextType::class, [
                 'required' => true,
@@ -59,6 +53,9 @@ class LevelType extends AbstractType
             ->add('chronologyOptions', TextType::class, [
                 'required' => true,
                 'label' => 'Pozycje zadania chronologicznego',
+                'attr' => [
+                    'placeholder' => 'Pozycja1, Pozycja2, Pozycja3...'
+                ]
             ])
             ->add('chronologyAnswer', TextType::class, [
                 'required' => true,
@@ -71,6 +68,9 @@ class LevelType extends AbstractType
             ->add('radioOptions', TextType::class, [
                 'required' => true,
                 'label' => 'Opcje zadania z opcjami',
+                'attr' => [
+                    'placeholder' => 'Pozycja1, Pozycja2, Pozycja3...'
+                ]
             ])
             ->add('radioAnswer', TextType::class, [
                 'required' => true,
