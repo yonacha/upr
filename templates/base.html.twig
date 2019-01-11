@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>{% block title %}Welcome!{% endblock %}</title>
+    <title>{% block title %}Powstanie1918{% endblock %}</title>
 
     {% block stylesheets %}
         <link href="{{ asset('css/vendor/bootstrap.min.css') }}" rel="stylesheet">
@@ -20,6 +20,10 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
         <link href="{{ asset('css/base.css') }}" rel="stylesheet">
         <link href="{{ asset('css/fireSpark/style.css') }}" rel="stylesheet">
+        <link href="{{ asset('bundles/jquery-ui/jquery-ui.structure.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('bundles/jquery-ui/jquery-ui.theme.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('bundles/jquery-ui/jquery-ui.min.css') }}" rel="stylesheet">
+
     {% endblock %}
 
 </head>
@@ -29,7 +33,7 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-black" id="mainNav">
     <div class="container">
-        <a class="navbar-brand js-scroll-trigger" href="../" style="color: black">Uprising</a>
+        <a class="navbar-brand js-scroll-trigger" href="../" style="color: black">Powstanie1918</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             Menu
             <i class="fas fa-bars"></i>
@@ -37,25 +41,29 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav text-uppercase ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" href="#services">O stronie</a>
+                    <a class="nav-link js-scroll-trigger" href="{{ path('home_page') }}">O stronie</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" href="{{ path('newslist') }}">Wiadomości o powstaniu</a>
+                    <a class="nav-link js-scroll-trigger" href="{{ path('newslist') }}">Znaleziska</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link js-scroll-trigger" href="{{ path('interactivemapshow') }}">Mapa interaktywna</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" href="{{ path('citygameshow') }}">Gra miejska</a>
+                    <a class="nav-link js-scroll-trigger" href="{{ path('citygameshow') }}">Gra o Powstaniu</a>
                 </li>
                 <li class="nav-item">
                     {% if is_granted('ROLE_USER') %}
                         <a class="nav-link js-scroll-trigger" href="{{ path('app_logout') }}">Wyloguj</a>
-
                     {% else %}
                         <a class="nav-link js-scroll-trigger" href="{{ path('app_login') }}">Logowanie</a>
                     {% endif %}
                 </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger"  href="{{ path('admin_panel_show') }}" rel="stylesheet">Admin</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>
@@ -136,6 +144,8 @@
     </script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="{{ asset('js/fireSpark/index.js') }}"></script>
+    <script src="{{ asset('bundles/jquery-ui/jquery-ui.min.js') }}"></script>
+
 {% endblock %}
 
 </body>

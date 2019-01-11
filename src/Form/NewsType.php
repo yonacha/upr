@@ -46,6 +46,7 @@ class NewsType extends AbstractType
             ->add('image', FileType::class, [
                 'empty_data' => 'Zdjęcie',
                 'label' => 'Zdjęcie',
+                'data_class' => null
             ]);
     }
 

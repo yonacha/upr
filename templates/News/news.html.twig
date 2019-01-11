@@ -37,6 +37,14 @@
             "> <i class="fa fa-thumbs-up"></i> {{ 'like'|trans }}</a>
             {% endif %}
             <a class="float-right btn text-white btn-secondary btn-sm"> {{ 'score'|trans }}: <span id="{{ item.id }}">{{ item.likes }}</span> </a>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a class="float-right btn text-white btn-danger btn-sm" href="{{ path('admin_panel_news_delete', {'id': item.id }) }}" style="margin-right: 8px"> {{ 'remove'|trans }} </a>
+            {% endif %}
+            {% if app.user %}
+                {% if app.user.name is same as(item.inputUser.name) %}
+                    <a class="float-right btn text-white btn-primary btn-sm" href="{{ path('news_edit', {'id': item.id }) }}" style="margin-right: 8px"> {{ 'edit'|trans }} </a>
+                {% endif %}
+            {% endif %}
         </p>
     </div>
 </div>

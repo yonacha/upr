@@ -98,6 +98,52 @@ class NewsController extends AbstractController
     }
 
     /**
+     * @Route("/edit/{id}", name="news_edit", options={"expose"=true}, requirements={"id"="\d+"})
+     * @param News $news
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @param TranslatorInterface $translator
+     * @param FileUploadService $uploadService
+     * @param PageToolContainer $toolContainer
+     * @return Response
+     */
+    public function edit(News $news, Request $request, EntityManagerInterface $entityManager, TranslatorInterface $translator, FileUploadService $uploadService, PageToolContainer $toolContainer): Response
+    {
+        $toolContainer->addTool(new PageTool('newslist', $translator->trans('news.list')));
+        if (!$user = $this->getUser()) {
+            throw new NotFoundHttpException('User not found in database');
+        }
+        $form = $this->createForm(NewsType::class, $news);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $news = $form->getData();
+            $news->setInputUser($user);
+
+            /** @var UploadedFile $image */
+            $image = $news->getImage();
+            try {
+                $imageName = $uploadService->upload($image, $this->getParameter('news_image_dir')) ;
+            } catch (FileException $e) {
+                $this->addFlash('danger', $translator->trans('news.image_upload_problem'));
+
+                return $this->redirectToRoute('newslist');
+            }
+            $news->setImage($imageName);
+
+            $entityManager->persist($news);
+            $entityManager->flush();
+            $this->addFlash('success', $translator->trans('news.added'));
+
+            return $this->redirectToRoute('newslist');
+        }
+
+        return $this->render('News/add.html.twig', [
+            'form' => $form->createView(),
+            'tools' => $toolContainer->getTools(),
+        ]);
+    }
+
+    /**
      * @Route("/details/{id}", name="news_details", requirements={"id"="\d+"})
      * @param Request $request
      * @param News $news

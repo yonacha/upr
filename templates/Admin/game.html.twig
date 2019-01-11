@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <section class="section-grey" id="services">
+        <div class="container">
+            {% include 'PageTool/page_tools.html.twig' with {'tools':tools} %}
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Nazwa</th>
+                            <th scope="col">Akcje</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for lvl in lvls %}
+                                <tr>
+                                    <td>{{ lvl.id }}</td>
+                                    <td>{{ lvl.lvlLabel }}</td>
+                                    <td><a href="{{ path('admin_panel_game_edit', {'id': lvl.id }) }}" class="btn btn-secondary">{{ 'edit'|trans }}</a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

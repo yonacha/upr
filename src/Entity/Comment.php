@@ -35,7 +35,7 @@ class Comment
     /**
      * Many Comment has One News.
      * @ORM\ManyToOne(targetEntity="News", inversedBy="comments")
-     * @ORM\JoinColumn(name="news_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="news_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $news;
 
