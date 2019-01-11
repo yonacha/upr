@@ -44,7 +44,7 @@
                     <a class="nav-link js-scroll-trigger" href="#services">O stronie</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" href="{{ path('newslist') }}">Wiadomości o Powstaniu</a>
+                    <a class="nav-link js-scroll-trigger" href="{{ path('newslist') }}">Znaleziska</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link js-scroll-trigger" href="{{ path('interactivemapshow') }}">Mapa interaktywna</a>
@@ -55,11 +55,15 @@
                 <li class="nav-item">
                     {% if is_granted('ROLE_USER') %}
                         <a class="nav-link js-scroll-trigger" href="{{ path('app_logout') }}">Wyloguj</a>
-
                     {% else %}
                         <a class="nav-link js-scroll-trigger" href="{{ path('app_login') }}">Logowanie</a>
                     {% endif %}
                 </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger"  href="{{ path('admin_panel_show') }}" rel="stylesheet">Admin</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>

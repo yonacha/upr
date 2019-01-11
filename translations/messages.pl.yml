@@ -27,3 +27,7 @@ city_game:
   sign_in_first: Aby rozpocząć grę, zaloguj się.
   save_answer: Zatwierdź odpowiedzi
   saved: Zapisano postęp w grze
+  gmae_config: Konfigurator gry
+  add_new: Dodaj nowe zadanie
+admin:
+  panel: Panel administracyjny
