@@ -14,9 +14,9 @@
 
                     <h1 class="h3 mb-3 font-weight-normal">Zaloguj, lub <a href="{{ path('app_register') }}">zarejestruj się</a></h1>
                     <label for="inputName" class="sr-only">Name</label>
-                    <input type="text" value="{{ last_username }}" name="name" id="inputName" class="form-control" placeholder="Name" required autofocus>
+                    <input type="text" value="{{ last_username }}" name="name" id="inputName" class="form-control" placeholder="Nazwa" required autofocus>
                     <label for="inputPassword" class="sr-only">Password</label>
-                    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Hasło" required>
 
                     <input type="hidden" name="_csrf_token"
                            value="{{ csrf_token('authenticate') }}"
@@ -34,7 +34,7 @@
                     #}
 
                     <button class="btn btn-lg btn-primary" type="submit">
-                        Sign in
+                        Zaloguj
                     </button>
                 </form>
             </div>
