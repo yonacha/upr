@@ -32,7 +32,7 @@ city_game:
   save_answer: Zatwierdź odpowiedzi
   saved: Zapisano postęp w grze
   gmae_config: Konfigurator gry
-  add_new: Dodaj nowe zadanie
+  add_new: Konfiguracja zadania
   added: Zapisano zadanie
   score_board: Ranking
   back_to_game: Wróć do gry
