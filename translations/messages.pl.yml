@@ -13,7 +13,7 @@ login:
 news:
   list: Lista wiadomości o powstaniu
   add: Dodaj nową wiadomość
-  added: Dodano nową wiadomość
+  added: Zapisano wiadomość
   interesting: Podziel się z innymi użytkownikai ciekawymi informacjami o powstaniu
   image_upload_problem: Wystąpił problem z przesyłaniem pliku
   back_to_list: Powrót do listy

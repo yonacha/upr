@@ -41,4 +41,4 @@ security:
         - { path: ^/admin_panel/game, roles: ROLE_ADMIN }
         - { path: ^/admin_panel/game/new, roles: ROLE_ADMIN }
         - { path: ^/admin_panel/game/edit, roles: ROLE_ADMIN }
-        - { path: ^/admin_panel/news_delete/delete, roles: ROLE_ADMIN }
+        - { path: ^/admin_panel/news_delete, roles: ROLE_ADMIN }
