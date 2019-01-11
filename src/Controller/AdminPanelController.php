@@ -40,7 +40,7 @@ class AdminPanelController extends AbstractController
     {
         $toolContainer->addTool(new PageTool('admin_panel_game', $translator->trans('city_game.gmae_config')));
 
-        return $this->render('admin/show.html.twig', [
+        return $this->render('Admin/show.html.twig', [
             'admin' => $this->getUser(),
             'tools' => $toolContainer->getTools(),
         ]);
@@ -58,7 +58,7 @@ class AdminPanelController extends AbstractController
         $toolContainer->addTool(new PageTool('admin_panel_show', $translator->trans('admin.panel')));
         $toolContainer->addTool(new PageTool('admin_panel_game_new', $translator->trans('city_game.add_new')));
 
-        return $this->render('admin/game.html.twig', [
+        return $this->render('Admin/game.html.twig', [
             'admin' => $this->getUser(),
             'tools' => $toolContainer->getTools(),
             'lvls' => $lvlRepo->findAll() ?? NULL,
