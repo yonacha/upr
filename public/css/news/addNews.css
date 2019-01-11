@@ -1,0 +1,28 @@
+div#AddForm input {
+    width: 480px;
+    max-width: 95%;
+    display: block;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+div#AddForm textarea {
+    width: 480px;
+    max-width: 95%;
+    display: block;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.custom-file{
+    width: 480px !important;
+    max-width: 95%!important;
+    display: block!important;
+    margin: 0 auto!important;
+    padding: 10px!important;
+}
+
+div#AddForm .btn{
+    background: rgba(214, 61, 65,0.3);
+    color: #333;
+}
