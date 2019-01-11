@@ -681,6 +681,7 @@ footer {
   padding: 25px 0;
   text-align: center;
   background: black;
+  max-height: 8%;
 }
 
 footer span.copyright {

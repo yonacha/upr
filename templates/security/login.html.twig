@@ -3,17 +3,6 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-<!-- Header -->
-<header class="masthead">
-    <div class="container">
-        <div class="intro-text">
-            <div class="intro-lead-in">Welcome To Website!</div>
-            <div class="intro-heading text-uppercase">It's Nice To Meet You</div>
-            <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#services">Tell Me More</a>
-        </div>
-    </div>
-</header>
-
 <section class="section-grey" id="services">
     <div class="container">
         <div class="row">
@@ -23,7 +12,7 @@
                         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                     {% endif %}
 
-                    <h1 class="h3 mb-3 font-weight-normal">Please sign in or <a href="{{ path('app_register') }}">register</a></h1>
+                    <h1 class="h3 mb-3 font-weight-normal">Zaloguj, lub <a href="{{ path('app_register') }}">zarejestruj się</a></h1>
                     <label for="inputName" class="sr-only">Name</label>
                     <input type="text" value="{{ last_username }}" name="name" id="inputName" class="form-control" placeholder="Name" required autofocus>
                     <label for="inputPassword" class="sr-only">Password</label>
