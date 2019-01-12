@@ -29,18 +29,24 @@ class NewsType extends AbstractType
             ->add('link', UrlType::class, [
                 'empty_data' => 'Link',
                 'label' => 'Link do zewnętrznego artykułu',
+                'attr' => [
+                    'maxlength' => 255
+                ],
             ])
             ->add('title', TextType::class, [
                 'required' => true,
                 'empty_data' => 'Tytuł',
                 'label' => 'Tytuł wiadomości',
+                'attr' => [
+                    'maxlength' => 40
+                ]
             ])
             ->add('description', TextareaType::class, [
                 'required' => true,
                 'empty_data' => 'Opis',
                 'label' => 'Opis wiadomości',
                 'attr' => [
-                    'maxlength' => 600
+                    'maxlength' => 500
                 ]
             ])
             ->add('image', FileType::class, [

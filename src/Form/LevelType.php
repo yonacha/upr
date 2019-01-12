@@ -37,48 +37,67 @@ class LevelType extends AbstractType
             ->add('lvlLabel', TextType::class, [
                 'required' => true,
                 'label' => 'Nazwa zadania',
+                'attr' => [
+                    'maxlength' => 200
+                ]
             ])
             ->add('lvlDescr', TextType::class, [
                 'required' => true,
                 'label' => 'Opis zadania',
-            ])
-            ->add('lvlDescr', TextType::class, [
-                'required' => true,
-                'label' => 'Opis zadania',
+                'attr' => [
+                    'maxlength' => 200
+                ]
             ])
             ->add('chronologyLabel', TextType::class, [
                 'required' => true,
                 'label' => 'Tytuł zadania chronologicznego',
+                'attr' => [
+                    'maxlength' => 200
+                ],
             ])
             ->add('chronologyOptions', TextType::class, [
                 'required' => true,
                 'label' => 'Pozycje zadania chronologicznego',
                 'attr' => [
-                    'placeholder' => 'Pozycja1, Pozycja2, Pozycja3...'
+                    'placeholder' => 'Pozycja1, Pozycja2, Pozycja3...',
+                    'maxlength' => 500,
                 ]
             ])
             ->add('chronologyAnswer', TextType::class, [
                 'required' => true,
                 'label' => 'Odpowiedź zadania chronologicznego',
-            ])
+                'attr' => [
+                    'maxlength' => 200
+                    ],
+             ])
             ->add('optionsLabel', TextType::class, [
                 'required' => true,
                 'label' => 'Tytuł zadania z opcjami',
+                'attr' => [
+                    'maxlength' => 200
+                ]
             ])
             ->add('radioOptions', TextType::class, [
                 'required' => true,
                 'label' => 'Opcje zadania z opcjami',
                 'attr' => [
-                    'placeholder' => 'Pozycja1, Pozycja2, Pozycja3...'
+                    'placeholder' => 'Pozycja1, Pozycja2, Pozycja3...',
+                    'maxlength' => 500,
                 ]
             ])
             ->add('radioAnswer', TextType::class, [
                 'required' => true,
                 'label' => 'Odpowiedź zadania z opcjami',
+                'attr' => [
+                    'maxlength' => 200
+                ]
             ])
             ->add('dateLabel', TextType::class, [
                 'required' => true,
                 'label' => 'Pytanie dla zadania z datą',
+                'attr' => [
+                    'maxlength' => 200
+                ],
             ])
             ->add('dateAnswer', DateType::class, [
                 'required' => true,
@@ -87,10 +106,16 @@ class LevelType extends AbstractType
             ->add('questionLabel', TextType::class, [
                 'required' => true,
                 'label' => 'Pytanie dla zadania tekstowego',
+                'attr' => [
+                    'maxlength' => 200
+                ],
             ])
             ->add('questionAnswer', TextType::class, [
                 'required' => true,
                 'label' => 'Odpowiedź dla zadania tekstowego',
+                'attr' => [
+                    'maxlength' => 200
+                ],
             ]);
     }
 

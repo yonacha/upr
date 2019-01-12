@@ -17,15 +17,24 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nazwa'
+                'label' => 'Nazwa',
+                'attr' => [
+                    'maxlength' => 40
+                ],
             ])
             ->add('email', TextType::class, [
                 'required' => true,
-                'empty_data' => 'Please enter an email'
+                'empty_data' => 'Please enter an email',
+                'attr' => [
+                    'maxlength' => 256
+                ]
             ])
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
+                'attr' => [
+                    'maxlength' => 255
+                ],
                 'label' => 'Hasło',
                 'mapped' => false,
                 'constraints' => [
