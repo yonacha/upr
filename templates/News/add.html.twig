@@ -3,9 +3,21 @@
 {% block stylesheets %}
     {{ parent() }}
     <link href="{{ asset('css/news/addNews.css') }}" rel="stylesheet" type="text/css">
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('https://www.google.com/recaptcha/api.js?') }}"></script>
+    <script>
+        grecaptcha.ready(function() {
+            grecaptcha.execute('reCAPTCHA_site_key', {action: 'homepage'});
+            alert("grecaptcha is ready!");
+        });
+    </script>
 {% endblock %}
 
 {% block body %}
+
     <section class="section-grey" id="services">
         <div class="container">
             {% include 'PageTool/page_tools.html.twig' with {'tools':tools} %}
@@ -16,11 +28,18 @@
                 </div>
                 <div class="col-lg-12 text-center" id="AddForm">
                     {{ form_start(form) }}
+
                     {{ form_row(form.link) }}
                     {{ form_row(form.title) }}
                     {{ form_row(form.description) }}
                     {{ form_row(form.image) }}
-
+                    {{ form_row(form.recaptcha, { 'attr': {
+                        'options' : {
+                            'theme': 'light',
+                            'type': 'image',
+                            'size': 'normal'
+                        },
+                    } }) }}
                     <input type="submit" class="btn" value="{{ 'add'|trans }}" />
                     {{ form_end(form) }}
                 </div>

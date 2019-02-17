@@ -63,3 +63,45 @@ html, body {
     max-width: 66%;
     margin: auto;
 }
+
+#legendWrapper{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 3px;
+    position: relative;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+   margin-bottom: 20px;
+    text-align: center;
+    padding-bottom: 20px;
+    display: inline-block;
+}
+
+.gameLegend{
+    float: left;
+    display: inline-block;
+    width: 33%;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-left: 2px dashed;
+    border-color: #C7090F;
+    height: 100%;
+}
+
+
+
+#firstGameLegend{
+    border: none!important;
+}
+
+.gameLegend > p{
+    padding-top: 20px;
+}
+
+#legendHeader{
+    padding-top: 5px;
+}

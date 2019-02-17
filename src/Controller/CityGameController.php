@@ -103,4 +103,10 @@ class CityGameController extends AbstractController
             'tools' => $toolContainer->getTools(),
         ]);
     }
+
+    public function getDetails(int $id){
+
+        
+    }
+
 }

@@ -69,7 +69,16 @@ class NewsController extends AbstractController
         }
         $form = $this->createForm(NewsType::class, new News());
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
+
+        if($form->isSubmitted() &&  $form->isValid() && !$this->captchaverify($request->get('g-recaptcha-response'))){
+
+            $this->addFlash(
+                'error',
+                'Captcha Require'
+            );
+        }
+
+        if ($form->isSubmitted() && $form->isValid() && $this->captchaverify($request->get('g-recaptcha-response'))) {
             $news = $form->getData();
             $news->setInputUser($user);
 
@@ -95,8 +104,29 @@ class NewsController extends AbstractController
             'form' => $form->createView(),
             'tools' => $toolContainer->getTools(),
         ]);
+
     }
 
+    function captchaverify($recaptcha){
+        if (isset($recaptcha)){return true;};
+    }
+    /*
+    function captchaverify($recaptcha){
+        $url = "https://www.google.com/recaptcha/api/siteverify";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, array(
+            "secret"=>"6LcyAJIUAAAAACl9vCggBLdtRtlmBJa9efghL9Ea","response"=>$recaptcha));
+        $response = curl_exec($ch);
+        curl_close($ch);
+        $data = json_decode($response);
+
+        return $data->success;
+    }
+    */
     /**
      * @Route("/edit/{id}", name="news_edit", options={"expose"=true}, requirements={"id"="\d+"})
      * @param News $news
