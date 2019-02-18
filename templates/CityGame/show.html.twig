@@ -113,18 +113,17 @@
 
             marker.addListener('click', function() {
                 $.ajax({
-                    url : '/getGameDetails',
+                    url : '/city_game/getGameDetails',
                     dataType : 'json',
                     method: "POST",
                     contentType: "application/json",
-                    data: {
-                        id : {{ item.id }}
+                    data:{
+                        id: 1
                     }
                 })
                     .done((function (response){
-                        alert("done");
-
-                    }))
+                        alert(response);
+                        }))
             })
 
             /*

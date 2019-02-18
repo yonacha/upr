@@ -21,6 +21,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * @Route("/city_game")
@@ -104,9 +107,24 @@ class CityGameController extends AbstractController
         ]);
     }
 
-    public function getDetails(int $id){
+    /**
+     * @Route("/getGameDetails", name="get_game_details")
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function getDetails(){
 
-        
+        $encoders = array(new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $serializer = new Serializer($normalizers, $encoders);
+
+        $details = $this->getDoctrine()->getRepository(LevelRepository::class)->findAll();
+        $jsonContent = $serializer->serialize($details, 'json');
+
+        return new JsonResponse(
+            $jsonContent
+            );
     }
 
 }

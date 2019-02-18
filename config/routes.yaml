@@ -3,7 +3,3 @@
 #    controller: App\Controller\DefaultController::index
 app_logout:
   path: /logout
-
-get_game_details:
-  path: /getGameDetails
-  controller: Controller/CityGameController.php::GetDetails
