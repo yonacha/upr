@@ -114,14 +114,13 @@
             marker.addListener('click', function() {
                 $.ajax({
                     url : '/city_game/getGameDetails',
-                    dataType : 'json',
-                    method: "POST",
-                    contentType: "application/json",
+                    type: "POST",
                     data:{
-                        id: 1
+                        id: {{ item.id }}
                     }
                 })
                     .done((function (response){
+                        console.log(response);
                         alert(response);
                         }))
             })

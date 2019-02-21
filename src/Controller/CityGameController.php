@@ -112,14 +112,27 @@ class CityGameController extends AbstractController
      * @param int $id
      * @return JsonResponse
      */
-    public function getDetails(){
+    public function getDetails(LevelRepository $lvlRepo, LevelService $lvlService): Response{
+        if(isset($_POST['id'])){
+        $id = $_POST['id'];
+        }
+        else{
+            $id = 2;
+        }
+        if ($this->getUser() && $lvlRepo->find($id)) {
+            $lvl = $lvlRepo->find($id);
+            $lvlTransData = $lvlService->getLvlTransofrmData($lvl);
+        }
 
         $encoders = array(new JsonEncoder());
         $normalizers = array(new ObjectNormalizer());
 
         $serializer = new Serializer($normalizers, $encoders);
 
-        $details = $this->getDoctrine()->getRepository(LevelRepository::class)->findAll();
+        $details =[
+            'lvl' => $lvl ?? NULL,
+
+        ];
         $jsonContent = $serializer->serialize($details, 'json');
 
         return new JsonResponse(

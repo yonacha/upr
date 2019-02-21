@@ -322,13 +322,6 @@ class Level
         return $this;
     }
 
-    /**
-     * @return \DateTime|null
-     */
-    public function getDate(): ?\DateTime
-    {
-        return $this->date;
-    }
 
     /**
      * @param \DateTime $date
