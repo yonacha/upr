@@ -1,0 +1,26 @@
+
+{% if medal is defined %}
+
+    {% if medal.name != "unknown" %}
+        <div class="col-md-4" style="">
+            <div class="box box-element">
+                <div class="view">
+                    <div class="nameWrapper"><h3 class="medalName">{{ medal.name }}</h3></div>
+                    <p> Wymagana liczba punktów: {{medal.neededPoints}} </p>
+                    {% if medal.neededPoints <= score[1] %}
+                    <div class="imageWrapper"><img src="{{ asset('images/medals/' ~ medal.image) }}" class="img img-fluid img-80-height"/></div>
+                        <button type="button" class="btn btn-secondary btn-sm" id="descriptionButton" data-toggle="collapse" data-target="#description{{ medal.id }}">Zobacz opis</button>
+                        <div id="description{{ medal.id }}" class="collapse">
+                            <p>{{ medal.description }}</p>
+                        </div>
+                        <p><a class="btn" href="#"><button type="button" class="btn btn-danger">Wybierz</button></a></p>
+                    {% else %}
+                            <div class="imageWrapper"><img src="{{ asset('images/medals/unknown.jpg') }}" class="img img-fluid img-80-height"/></div>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+{% endif %}

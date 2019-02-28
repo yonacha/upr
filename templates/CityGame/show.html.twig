@@ -39,9 +39,8 @@
                     {% endif %}
                 </div>
             </div>
-
-            {% if app.user and lvl %}
-                <div class="row">
+            <div class="row" id="taskContainer">
+                {% if app.user and lvl %}
                     <div class="col-lg-12 text-center">
                         <div class="game-board">
                             <div class="card border-secondary mb-3">
@@ -52,14 +51,16 @@
                                     <h5 class="card-title top-40"> {{ lvl.chronologyLabel }} </h5>
                                     <ul id="sortable" style="margin: auto">
                                         {% for chrono in lvl_trans_data.chrono_options %}
-                                            <li class="ui-state-default"><p class="card-text chrono chrono{{ loop.index }}"> {{ chrono }} </p></li>
+                                            <li class="ui-state-default"><p
+                                                        class="card-text chrono chrono{{ loop.index }}"> {{ chrono }} </p>
+                                            </li>
                                         {% endfor %}
                                     </ul>
                                     <h5 class="card-title top-40"> {{ lvl.optionsLabel }} </h5>
                                     <div class="funkyradio">
                                         {% for radio in lvl_trans_data.radio_options %}
                                             <div class="funkyradio-default">
-                                                <input type="radio" name="radio" id="radio{{ loop.index }}" />
+                                                <input type="radio" name="radio" id="radio{{ loop.index }}"/>
                                                 <label for="radio{{ loop.index }}">{{ radio }}</label>
                                             </div>
                                         {% endfor %}
@@ -78,8 +79,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            {% endif %}
+                {% endif %}
+            </div>
         </div>
     </section>
 
@@ -99,31 +100,45 @@
             {% if lvls %}
             {% for item in lvls %}
             var marker = new google.maps.Marker({
-                position: {lat: {{ item.latt }}, lng: {{ item.longg}}},
+                position: {lat: {{ item.latt }}, lng: {{ item.longg }}},
                 map: map,
                 title: '{{ item.lvlLabel }}',
                 icon: {
                     {% if item in lvls_completed %}
-                        url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+                    url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
                     {% else %}
-                        url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
+                    url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
                     {% endif %}
                 }
             });
 
-            marker.addListener('click', function() {
+            marker.addListener('click', function () {
                 $.ajax({
-                    url : '/city_game/getGameDetails',
+                    url: '/city_game/getGameDetails',
                     type: "POST",
-                    data:{
+                    data: {
                         id: {{ item.id }}
                     }
                 })
-                    .done((function (response){
+                    .done((function (response) {
+                        {% if app.user and lvl %}
+                        $('#taskContainer').append('<div class="col-lg-12 text-center">');
+                        $('#taskContainer').append('<div class="game-board">');
+                        $('#taskContainer').append('<div class="card border-secondary mb-3">');
+                        $('#taskContainer').append('<div class="card-header">{{ 'city_game.title'|trans }}</div>');
+                        $('#taskContainer').append('<div class="card-body text-secondary">');
+                        $('#taskContainer').append('<h5 class="card-title"> {{ lvl.lvlLabel }} </h5>');
+                        $('#taskContainer').append('<p class="card-text"> {{ lvl.lvlDescr }} </p>');
+                        $('#taskContainer').append('<h5 class="card-title top-40"> {{ lvl.chronologyLabel }} </h5>');
+                        $('#taskContainer').append('<ul id="sortable" style="margin: auto">');
+                        {% endif %}
+
                         console.log(response);
                         alert(response);
-                        }))
+                        
+                    }))
             })
+            
 
             /*
             marker.addListener('click', function() {
@@ -169,19 +184,19 @@
 
         // Sets a listener on a radio button to change the filter type on Places
         // Autocomplete.
-        AutocompleteDirectionsHandler.prototype.setupClickListener = function(id, mode) {
+        AutocompleteDirectionsHandler.prototype.setupClickListener = function (id, mode) {
             var radioButton = document.getElementById(id);
             var me = this;
-            radioButton.addEventListener('click', function() {
+            radioButton.addEventListener('click', function () {
                 me.travelMode = mode;
                 me.route();
             });
         };
 
-        AutocompleteDirectionsHandler.prototype.setupPlaceChangedListener = function(autocomplete, mode) {
+        AutocompleteDirectionsHandler.prototype.setupPlaceChangedListener = function (autocomplete, mode) {
             var me = this;
             autocomplete.bindTo('bounds', this.map);
-            autocomplete.addListener('place_changed', function() {
+            autocomplete.addListener('place_changed', function () {
                 var place = autocomplete.getPlace();
                 if (!place.place_id) {
                     window.alert("Please select an option from the dropdown list.");
@@ -197,7 +212,7 @@
 
         };
 
-        AutocompleteDirectionsHandler.prototype.route = function() {
+        AutocompleteDirectionsHandler.prototype.route = function () {
             if (!this.originPlaceId || !this.destinationPlaceId) {
                 return;
             }
@@ -207,7 +222,7 @@
                 origin: {'placeId': this.originPlaceId},
                 destination: {'placeId': this.destinationPlaceId},
                 travelMode: this.travelMode
-            }, function(response, status) {
+            }, function (response, status) {
                 if (status === 'OK') {
                     me.directionsDisplay.setDirections(response);
                 } else {
@@ -217,18 +232,19 @@
         };
 
     </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWaW4sfXx-XJYP9rPTIlh_VKKuuFTg2sU&libraries=places&callback=initMap"></script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWaW4sfXx-XJYP9rPTIlh_VKKuuFTg2sU&libraries=places&callback=initMap"></script>
 
 
     <script>
         {% if app.user and lvl %}
-        $( document ).ready(function() {
-            $( "#sortable" ).sortable();
-            $( "#sortable" ).disableSelection();
+        $(document).ready(function () {
+            $("#sortable").sortable();
+            $("#sortable").disableSelection();
             $('#game-saver').click(function () {
                 var task1 = [];
                 $('.chrono').each(function (index) {
-                    task1.push($( this ).text());
+                    task1.push($(this).text());
                 });
                 var task2;
                 $("input[id^='radio'][class='selected']");
@@ -241,7 +257,7 @@
                 jQuery.ajax({
                     type: "POST",
                     url: Routing.generate('citygame_save', {'id':{{ lvl.id }}}),
-                    data: {'task1':task1,'task2':task2,'task3':task3,'task4':task4},
+                    data: {'task1': task1, 'task2': task2, 'task3': task3, 'task4': task4},
                     success: function (result) {
                         window.location.replace(Routing.generate('citygameshow'));
                     },
@@ -250,7 +266,7 @@
             });
             $("input[id^='radio']").click(function () {
                 $("input[id^='radio']").removeClass('selected');
-                $( this ).addClass('selected');
+                $(this).addClass('selected');
             });
         });
         {% endif %}
@@ -261,8 +277,7 @@
 
     {% endif %}
 
-        <script>
-
+    <script>
 
 
     </script>

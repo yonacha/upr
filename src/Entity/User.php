@@ -47,6 +47,28 @@ class User implements UserInterface
      */
     private $userScores;
 
+    /**
+     * @ORM\Column(type="integer", options={"default" : 0})
+     */
+
+    private $chosenOrder;
+
+    /**
+     * @return mixed
+     */
+    public function getChosenOrder()
+    {
+        return $this->chosenOrder;
+    }
+
+    /**
+     * @param mixed $chosenOrder
+     */
+    public function setChosenOrder($chosenOrder): void
+    {
+        $this->chosenOrder = $chosenOrder;
+    }
+
     public function __construct()
     {
         $this->userScores = new ArrayCollection();

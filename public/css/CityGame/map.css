@@ -105,3 +105,7 @@ html, body {
 #legendHeader{
     padding-top: 5px;
 }
+
+#taskContainer{
+    visibility: hidden;
+}

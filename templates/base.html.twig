@@ -46,11 +46,12 @@
                 <li class="nav-item">
                     <a class="nav-link js-scroll-trigger" href="{{ path('newslist') }}">Znaleziska</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" href="{{ path('interactivemapshow') }}">Mapa interaktywna</a>
-                </li>
+
                 <li class="nav-item">
                     <a class="nav-link js-scroll-trigger" href="{{ path('citygameshow') }}">Gra o Powstaniu</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="{{ path('medalshow') }}">Moje odznaczenia</a>
                 </li>
                 <li class="nav-item">
                     {% if is_granted('ROLE_USER') %}
