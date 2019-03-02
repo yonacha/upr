@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <section class="section-grey" id="services">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading text-uppercase">Witaj {{ app.user.name }}!</h2>
+                </div>
+            </div>
+        </div>
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }} alert-dismissible fade show fixed-flash">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+        <div class="container">
+            <div class="row" id="UserOptionsContainer">
+                    <div class="col-md-4">
+                        <a href="{{ path('user_panel_password') }}">
+                            <button type="button" class="btn btn-secondary">Zmień hasło</button>
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="{{ path('user_panel_name') }}">
+                            <button type="button" class="btn btn-secondary">Zmień nazwę użytkownika</button>
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="{{ path('user_panel_email') }}">
+                            <button type="button" class="btn btn-secondary">Zmień adres e-mail</button>
+                        </a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

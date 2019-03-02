@@ -8,6 +8,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Medal;
 use App\Repository\MedalRepository;
 use App\Service\MedalsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,6 +16,8 @@ use App\Repository\UserScoreRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 
 /**
  * @Route("/order")
@@ -44,4 +47,22 @@ class MedalsController extends AbstractController
             'medals' => $medals ?? NULL
         ]);
     }
+
+    /**
+     * @Route("/save/{id}", requirements={"id"="\d+"}, name="medal_save", options={"expose"=true})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function save(Request $request, MedalsService $medalsService)
+    {
+        if ($request->isXmlHttpRequest()) {
+            $medalsService->saveOrder($this->getUser(),$request);
+        } else {
+            return new JsonResponse('no');
+        }
+
+
+        return new JsonResponse('medalsshow');
+    }
+
 }

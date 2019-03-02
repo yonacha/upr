@@ -29,6 +29,8 @@ class RegistrationController extends AbstractController
             /** @var User */
             $user = $form->getData();
 
+            $user->setChosenOrder(0);
+
             // encode the plain password
             $user->setPassword(
                 $passwordEncoder->encodePassword(
@@ -36,6 +38,7 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);

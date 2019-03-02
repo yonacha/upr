@@ -131,7 +131,7 @@ class CityGameController extends AbstractController
 
         $details =[
             'lvl' => $lvl ?? NULL,
-
+            'lvlTransData' => $lvlTransData ?? NULL
         ];
         $jsonContent = $serializer->serialize($details, 'json');
 

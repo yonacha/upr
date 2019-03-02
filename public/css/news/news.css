@@ -9,7 +9,7 @@
 }
 
 .news-card {
-    height: 225px;
+    height: auto;
     overflow: hidden;
     text-overflow: ellipsis;
     margin-bottom: 3px;
@@ -106,3 +106,19 @@
     -ms-transform: rotate(45deg);
     -o-transform: rotate(45deg);
 }​
+
+ p.text-secondary{
+     margin-bottom: 0px;
+ }
+
+.imageWrapper img{
+    width: 40px;
+    height: auto;
+}
+
+.card-body{
+    padding: 0px;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-right: 10px;
+}

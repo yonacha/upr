@@ -39,37 +39,25 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="row" id="taskContainer">
-                {% if app.user and lvl %}
+                <div class="row response-row" id="responseContainer">
                     <div class="col-lg-12 text-center">
                         <div class="game-board">
                             <div class="card border-secondary mb-3">
                                 <div class="card-header">{{ 'city_game.title'|trans }}</div>
                                 <div class="card-body text-secondary">
-                                    <h5 class="card-title"> {{ lvl.lvlLabel }} </h5>
-                                    <p class="card-text"> {{ lvl.lvlDescr }} </p>
-                                    <h5 class="card-title top-40"> {{ lvl.chronologyLabel }} </h5>
+                                    <h5 class="card-title" id="first-item"> </h5>
+                                    <p class="card-text"> {#{ lvl.lvlDescr }#} </p>
+                                    <h5 class="card-title top-40"> {#{ lvl.chronologyLabel }#} </h5>
                                     <ul id="sortable" style="margin: auto">
-                                        {% for chrono in lvl_trans_data.chrono_options %}
-                                            <li class="ui-state-default"><p
-                                                        class="card-text chrono chrono{{ loop.index }}"> {{ chrono }} </p>
-                                            </li>
-                                        {% endfor %}
                                     </ul>
-                                    <h5 class="card-title top-40"> {{ lvl.optionsLabel }} </h5>
+                                    <h5 class="card-title top-40"> {#{ lvl.optionsLabel }#} </h5>
                                     <div class="funkyradio">
-                                        {% for radio in lvl_trans_data.radio_options %}
-                                            <div class="funkyradio-default">
-                                                <input type="radio" name="radio" id="radio{{ loop.index }}"/>
-                                                <label for="radio{{ loop.index }}">{{ radio }}</label>
-                                            </div>
-                                        {% endfor %}
                                     </div>
-                                    <h5 class="card-title top-40"> {{ lvl.dateLabel }} </h5>
+                                    <h5 id="h5-dateLabel" class="card-title top-40"> {#{ lvl.dateLabel }#} </h5>
                                     <div class="centered">
                                         <input class="form-control" type="date" id="date-question">
                                     </div>
-                                    <h5 class="card-title top-40"> {{ lvl.questionLabel }} </h5>
+                                    <h5 id="h5-questionLabel" class="card-title top-40"> {#{ lvl.questionLabel }#} </h5>
                                     <div class="centered">
                                         <input type="text" class="form-control" id="question-question">
                                     </div>
@@ -79,8 +67,7 @@
                             </div>
                         </div>
                     </div>
-                {% endif %}
-            </div>
+                </div>
         </div>
     </section>
 
@@ -100,56 +87,126 @@
             {% if lvls %}
             {% for item in lvls %}
             var marker = new google.maps.Marker({
-                position: {lat: {{ item.latt }}, lng: {{ item.longg }}},
+                position: {lat: {{ item.latt }}, lng: {{ item.longg}}},
                 map: map,
                 title: '{{ item.lvlLabel }}',
                 icon: {
                     {% if item in lvls_completed %}
-                    url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+                        url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
                     {% else %}
-                    url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
+                        url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
                     {% endif %}
                 }
             });
 
-            marker.addListener('click', function () {
-                $.ajax({
-                    url: '/city_game/getGameDetails',
-                    type: "POST",
-                    data: {
-                        id: {{ item.id }}
-                    }
-                })
-                    .done((function (response) {
-                        {% if app.user and lvl %}
-                        $('#taskContainer').append('<div class="col-lg-12 text-center">');
-                        $('#taskContainer').append('<div class="game-board">');
-                        $('#taskContainer').append('<div class="card border-secondary mb-3">');
-                        $('#taskContainer').append('<div class="card-header">{{ 'city_game.title'|trans }}</div>');
-                        $('#taskContainer').append('<div class="card-body text-secondary">');
-                        $('#taskContainer').append('<h5 class="card-title"> {{ lvl.lvlLabel }} </h5>');
-                        $('#taskContainer').append('<p class="card-text"> {{ lvl.lvlDescr }} </p>');
-                        $('#taskContainer').append('<h5 class="card-title top-40"> {{ lvl.chronologyLabel }} </h5>');
-                        $('#taskContainer').append('<ul id="sortable" style="margin: auto">');
-                        {% endif %}
+            var showForm = false;
+            $('.response-row').hide();
 
-                        console.log(response);
-                        alert(response);
-                        
-                    }))
-            })
-            
-
-            /*
             marker.addListener('click', function() {
-                window.location.replace(Routing.generate('citygameshow', {'id':{{ item.id }}}));
+              $.post("/city_game/getGameDetails", {
+                  id: {{ item.id }}
+                },
+                function(response) {
+                  var jsonResponse = $.parseJSON(response);
+                  console.log(jsonResponse);
+                  if(!showForm) {
+                    builder(jsonResponse);
+                    $('.response-row').show();
+                    showForm = true;
+                  }
+                }
+              );
             });
-            */
+
+            function builder(json) {
+              var lvlId = json.lvl.id;
+              var lvlLabel = json.lvl.lvlLabel;
+              var lvlDescr = json.lvl.lvlDescr;
+              var chronologyLabel = json.lvl.chronologyLabel;
+              var chrono_options = json.lvlTransData.chrono_options;
+              var optionsLabel = json.lvl.optionsLabel;
+              var radio_options = json.lvlTransData.radio_options;
+              var dateLabel = json.lvl.dateLabel;
+              var questionLabel = json.lvl.questionLabel;
+
+              $('#first-item').text(lvlLabel);
+              $('#first-item').next().text(lvlDescr);
+              $('#first-item').next().next().text(chronologyLabel);
+
+              var chronoTable = [];
+              for(var chrono in chrono_options) {
+                var innerHTML = `<li class="ui-state-default"><p class="card-text chrono chrono${chrono}"> ${chrono_options[chrono]} </p></li>`;
+                chronoTable.push(innerHTML);
+                $('#sortable').append(chronoTable[0]);
+                chronoTable.pop();
+              };
+
+              $('#sortable').next().text(optionsLabel);
+
+              var radioTable = [];
+              for(var radio in radio_options) {
+                var innerHTML0 = `<div class="funkyradio-default funkyselector${radio}"></div>`
+                var innerHTML1 = `<input type="radio" name="radio" id="radio${radio}" />`;
+                var innerHTML2 = `<label for="radio${radio}">${radio_options[radio]}</label>`;
+                radioTable.push(innerHTML0);
+                radioTable.push(innerHTML1);
+                radioTable.push(innerHTML2);
+                $('.funkyradio').append(radioTable[0]);
+                $(`.funkyselector${radio}`).append(radioTable[1], radioTable[2]);
+                radioTable.pop();
+                radioTable.pop();
+                radioTable.pop();
+              };
+
+              $('#h5-dateLabel').text(dateLabel);
+              $('#h5-questionLabel').text(questionLabel);
+
+              setTimeout(formExec(lvlId), 1000);
+            }
+
             {% endfor %}
             {% endif %}
+
             new AutocompleteDirectionsHandler(map);
         }
 
+        function formExec(id) {
+            $('#sortable').sortable().disableSelection();
+            var radioElements = $("input[id^='radio']");
+            radioElements.click(function() {
+                radioElements.removeClass('selected');
+                $(this).addClass('selected');
+            });
+            $('#game-saver').click(function() {
+                var task1 = [];
+                $('.chrono').each(function(index) {
+                    task1.push($(this).text());
+                });
+                var task2 = $('.selected').next().text();;
+                var task3 = $('#date-question').val();
+                var task4 = $('#question-question').val();
+
+                $.post(Routing.generate('citygame_save', {'id': id}), {
+                    task1: task1,
+                    task2: task2,
+                    task3: task3,
+                    task4: task4
+                  },
+                  function(response) {
+                    window.location.replace(Routing.generate('citygameshow'));
+                  }
+                );
+                // jQuery.ajax({
+                //     type: "POST",
+                //     url: Routing.generate('citygame_save', {'id':{#{ lvls.id }#}}),
+                //     data: {'task1':task1,'task2':task2,'task3':task3,'task4':task4},
+                //     success: function (result) {
+                //         window.location.replace(Routing.generate('citygameshow'));
+                //     },
+                //     async: false
+                // });
+            });
+        };
         /**
          * @constructor
          */
@@ -184,19 +241,19 @@
 
         // Sets a listener on a radio button to change the filter type on Places
         // Autocomplete.
-        AutocompleteDirectionsHandler.prototype.setupClickListener = function (id, mode) {
+        AutocompleteDirectionsHandler.prototype.setupClickListener = function(id, mode) {
             var radioButton = document.getElementById(id);
             var me = this;
-            radioButton.addEventListener('click', function () {
+            radioButton.addEventListener('click', function() {
                 me.travelMode = mode;
                 me.route();
             });
         };
 
-        AutocompleteDirectionsHandler.prototype.setupPlaceChangedListener = function (autocomplete, mode) {
+        AutocompleteDirectionsHandler.prototype.setupPlaceChangedListener = function(autocomplete, mode) {
             var me = this;
             autocomplete.bindTo('bounds', this.map);
-            autocomplete.addListener('place_changed', function () {
+            autocomplete.addListener('place_changed', function() {
                 var place = autocomplete.getPlace();
                 if (!place.place_id) {
                     window.alert("Please select an option from the dropdown list.");
@@ -212,7 +269,7 @@
 
         };
 
-        AutocompleteDirectionsHandler.prototype.route = function () {
+        AutocompleteDirectionsHandler.prototype.route = function() {
             if (!this.originPlaceId || !this.destinationPlaceId) {
                 return;
             }
@@ -222,7 +279,7 @@
                 origin: {'placeId': this.originPlaceId},
                 destination: {'placeId': this.destinationPlaceId},
                 travelMode: this.travelMode
-            }, function (response, status) {
+            }, function(response, status) {
                 if (status === 'OK') {
                     me.directionsDisplay.setDirections(response);
                 } else {
@@ -232,53 +289,6 @@
         };
 
     </script>
-    <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWaW4sfXx-XJYP9rPTIlh_VKKuuFTg2sU&libraries=places&callback=initMap"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWaW4sfXx-XJYP9rPTIlh_VKKuuFTg2sU&libraries=places&callback=initMap"></script>
 
-
-    <script>
-        {% if app.user and lvl %}
-        $(document).ready(function () {
-            $("#sortable").sortable();
-            $("#sortable").disableSelection();
-            $('#game-saver').click(function () {
-                var task1 = [];
-                $('.chrono').each(function (index) {
-                    task1.push($(this).text());
-                });
-                var task2;
-                $("input[id^='radio'][class='selected']");
-                task2 = ($(".selected").next().text());
-                var task3;
-                task3 = ($('#date-question').val());
-                var task4;
-                task4 = ($('#question-question').val());
-
-                jQuery.ajax({
-                    type: "POST",
-                    url: Routing.generate('citygame_save', {'id':{{ lvl.id }}}),
-                    data: {'task1': task1, 'task2': task2, 'task3': task3, 'task4': task4},
-                    success: function (result) {
-                        window.location.replace(Routing.generate('citygameshow'));
-                    },
-                    async: false
-                });
-            });
-            $("input[id^='radio']").click(function () {
-                $("input[id^='radio']").removeClass('selected');
-                $(this).addClass('selected');
-            });
-        });
-        {% endif %}
-    </script>
-    {% if app.user and lvl %}
-
-
-
-    {% endif %}
-
-    <script>
-
-
-    </script>
 {% endblock %}

@@ -53,13 +53,21 @@
                 <li class="nav-item">
                     <a class="nav-link js-scroll-trigger" href="{{ path('medalshow') }}">Moje odznaczenia</a>
                 </li>
-                <li class="nav-item">
                     {% if is_granted('ROLE_USER') %}
+                <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="{{ path('app_logout') }}">Wyloguj</a>
-                    {% else %}
-                        <a class="nav-link js-scroll-trigger" href="{{ path('app_login') }}">Logowanie</a>
-                    {% endif %}
                 </li>
+                <li class="nav-item">
+
+                <a class="nav-link js-scroll-trigger" href="{{ path('user_panel_show') }}">Mój profil</a>
+                </li>
+                    {% else %}
+                <li class="nav-item">
+
+                <a class="nav-link js-scroll-trigger" href="{{ path('app_login') }}">Logowanie</a>
+                </li>
+                    {% endif %}
+
                 {% if is_granted('ROLE_ADMIN') %}
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger"  href="{{ path('admin_panel_show') }}" rel="stylesheet">Admin</a>
@@ -98,7 +106,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <span class="copyright">Copyright &copy; Your Website 2018</span>
+                <span class="copyright">Projekt inżynierski Uprising 2019</span>
             </div>
             <div class="col-md-4">
                 <ul class="list-inline social-buttons">
@@ -168,6 +176,7 @@
 
 {% block javascripts %}
     <script src="{{ asset('js/vendor/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/vendor/notify.min.js') }}"></script>
     <script src="{{ asset('js/vendor/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('js/vendor/jquery.easing.min.js') }}"></script>
     <script src="{{ asset('js/base.min.js') }}"></script>
@@ -180,7 +189,7 @@
     </script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="{{ asset('js/fireSpark/index.js') }}"></script>
-    <script src="{{ asset('bundles/jquery-ui/jquery-ui.min.js') }}"></script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
 {% endblock %}
 

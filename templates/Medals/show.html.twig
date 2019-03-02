@@ -13,13 +13,15 @@
                 <div class="col-lg-12 text-center">
                     <h2 class="section-heading text-uppercase">Odblokowane ordery i medale</h2>
                     <h3 class="section-subheading text-muted">Sprawdź swój postęp w grze o powstaniu!</h3>
+                    <h4 class="section-subheading text-muted">Twoje punkty: {% if score %}{{ score[1] }}{% else %} 0 {% endif %}</h4>
+                    <h8 class="section-subheading text-muted">(możesz wybrać odznaczenie, które będzie wyświetlane pod Twoją nazwą użytkownika)</h8>
 
                 {% if app.user %}
                     <div class="container">
                         <div class="row">
                             {% if medals is defined %}
                                 {% for medal in medals %}
-                                    {% include 'Medals/medal.html.twig' with {'medal':medal} %}
+                                    {% embed 'Medals/medal.html.twig' with {'medal':medal} %}{% endembed %}
                                 {% endfor %}
                             {% endif %}
                         </div>
@@ -33,4 +35,32 @@
             </div>
         </div>
     </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(document).ready(function () {
+            {% if medals is defined %}
+
+            {% for medal in medals %}
+
+            $('#button{{ medal.id }}').bind('click', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: Routing.generate('medal_save', {'id':{{ medal.id }}}),
+                    async: false
+                })
+                    .done((function (response) {
+
+                        $.notify("Zapisano wybór!","success");
+                        console.log(response);
+                    }))
+            })
+            {% endfor %}
+            {% endif %}
+        })
+    </script>
 {% endblock %}

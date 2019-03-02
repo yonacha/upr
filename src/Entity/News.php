@@ -11,6 +11,7 @@ namespace App\Entity;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\NewsRepository")
  * @UniqueEntity(fields={"title"}, message="Znajduje się już wpis o takim tytule")
+ * @UniqueEntity(fields={"link"}, message="Znajduje się już wpis z takim adresem")
  */
 
 use Doctrine\Common\Collections\ArrayCollection;

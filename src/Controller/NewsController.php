@@ -12,7 +12,9 @@ use App\Entity\Comment;
 use App\Entity\News;
 use App\Form\CommentType;
 use App\Form\NewsType;
+use App\Repository\MedalRepository;
 use App\Service\FileUploadService;
+use App\Service\MedalsService;
 use App\Service\NewsService;
 use App\Service\PageTools\PageTool;
 use App\Service\PageTools\PageToolContainer;
@@ -26,6 +28,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+
 
 /**
  * @Route("/news")
@@ -43,13 +47,14 @@ class NewsController extends AbstractController
      * @param TranslatorInterface $translator
      * @return Response
      */
-    public function list(Request $request, NewsService $service, PageToolContainer $toolContainer, TranslatorInterface $translator): Response
+    public function list(Request $request, NewsService $service, PageToolContainer $toolContainer, TranslatorInterface $translator, MedalRepository $medalRepo): Response
     {
         $toolContainer->addTool(new PageTool('news_add', $translator->trans('news.add')));
 
         return $this->render('News/list.html.twig', [
             'news' => $service->getAllNews(),
             'tools' => $toolContainer->getTools(),
+            'medals' => $medalRepo->findAll()
         ]);
     }
 
@@ -91,10 +96,15 @@ class NewsController extends AbstractController
 
                 return $this->redirectToRoute('newslist');
             }
-            $news->setImage($imageName);
+                $news->setImage($imageName);
+                $entityManager->persist($news);
+                $entityManager->flush();
 
-            $entityManager->persist($news);
-            $entityManager->flush();
+
+                $this->addFlash('warning', 'Nie udało się dodać artykułu');
+                return $this->redirectToRoute('newslist');
+
+
             $this->addFlash('success', $translator->trans('news.added'));
 
             return $this->redirectToRoute('newslist');
@@ -110,23 +120,6 @@ class NewsController extends AbstractController
     function captchaverify($recaptcha){
         if (isset($recaptcha)){return true;};
     }
-    /*
-    function captchaverify($recaptcha){
-        $url = "https://www.google.com/recaptcha/api/siteverify";
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, array(
-            "secret"=>"6LcyAJIUAAAAACl9vCggBLdtRtlmBJa9efghL9Ea","response"=>$recaptcha));
-        $response = curl_exec($ch);
-        curl_close($ch);
-        $data = json_decode($response);
-
-        return $data->success;
-    }
-    */
     /**
      * @Route("/edit/{id}", name="news_edit", options={"expose"=true}, requirements={"id"="\d+"})
      * @param News $news
